@@ -3,19 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>متجر خرز أنتيكات</title>
+<title>متجر واحد لكل اللي تحتاجيه</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#0f0f0f;color:white;}
+body{
+margin:0;
+font-family:Arial;
+background:#0f0f0f;
+color:white;
+}
 
 header{
 background:black;
 padding:15px;
 text-align:center;
-font-size:24px;
+font-size:22px;
 font-weight:bold;
 }
 
+/* البحث */
+.searchBox{
+padding:15px;
+background:#111;
+}
+
+.searchBox input{
+width:100%;
+padding:12px;
+border:none;
+border-radius:10px;
+font-size:16px;
+}
+
+/* الاقسام */
 .categories{
 display:flex;
 gap:10px;
@@ -34,8 +54,12 @@ cursor:pointer;
 white-space:nowrap;
 }
 
-.categories button:hover{background:#00ff9c;color:black;}
+.categories button:hover{
+background:#00ff9c;
+color:black;
+}
 
+/* المنتجات */
 .products{
 display:grid;
 grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
@@ -50,10 +74,38 @@ padding:15px;
 text-align:center;
 }
 
-.product img{width:100%;border-radius:10px;margin-bottom:8px;}
+.product img{
+width:100%;
+border-radius:10px;
+margin-bottom:8px;
+}
 
-.price{color:#00ff9c;font-size:18px;margin:8px 0;}
+/* السعر */
+.price{
+color:#ffffff;
+font-size:20px;
+font-weight:bold;
+margin-top:10px;
+}
 
+/* الشحن المجاني */
+.free{
+display:flex;
+align-items:center;
+justify-content:center;
+gap:8px;
+color:#00ff66;
+font-size:22px;
+font-weight:900;
+margin:8px 0 12px 0;
+}
+
+/* ايقونة التوصيل */
+.free span{
+font-size:26px;
+}
+
+/* الازرار */
 button{
 background:#00ff9c;
 color:black;
@@ -62,18 +114,6 @@ padding:10px;
 width:100%;
 border-radius:8px;
 margin-top:6px;
-cursor:pointer;
-font-weight:bold;
-}
-
-.cart{
-position:fixed;
-top:15px;
-right:15px;
-background:#00ff9c;
-color:black;
-padding:8px 15px;
-border-radius:20px;
 cursor:pointer;
 font-weight:bold;
 }
@@ -90,6 +130,7 @@ font-size:22px;
 cursor:pointer;
 }
 
+/* زر واتساب */
 .whatsapp{
 position:fixed;
 bottom:20px;
@@ -102,6 +143,7 @@ text-decoration:none;
 font-weight:bold;
 }
 
+/* فورم الادمن */
 .formBox{
 display:none;
 position:fixed;
@@ -122,30 +164,29 @@ margin:6px 0;
 border:none;
 border-radius:6px;
 }
-
-.checkout{display:none;padding:20px;}
 </style>
 </head>
 
 <body>
 
-<header>متجر خرز أنتيكات</header>
+<header>متجر واحد لكل اللي تحتاجيه في مكان واحد. 🛍️</header>
+
+<div class="searchBox">
+<input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="searchProducts()">
+</div>
 
 <div class="categories">
 <button onclick="filter('all')">كل المنتجات</button>
-<button onclick="filter('بيانو')">بيانو خرز</button>
-<button onclick="filter('جامع')">جامع خرز</button>
-<button onclick="filter('انتيكات')">أنتيكات خرز</button>
-<button onclick="filter('جديد')">منتجات جديدة</button>
+<button onclick="filter('شنط خرز')">شنط خرز</button>
+<button onclick="filter('ترندات')">ترندات</button>
+<button onclick="filter('فوانيس خرز')">فوانيس خرز</button>
 </div>
-
-<div class="cart" onclick="openCheckout()">السلة (<span id="cartCount">0</span>)</div>
 
 <div class="products" id="products"></div>
 
 <div class="addBtn" onclick="openLogin()">+</div>
 
-<a class="whatsapp" href="https://wa.me/201000000000">واتساب</a>
+<a class="whatsapp" href="https://wa.me/201091007426">واتساب</a>
 
 <!-- تسجيل دخول الادمن -->
 <div class="formBox" id="loginBox">
@@ -162,10 +203,9 @@ border-radius:6px;
 <input id="price" placeholder="السعر بالريال">
 
 <select id="category">
-<option value="بيانو">بيانو خرز</option>
-<option value="جامع">جامع خرز</option>
-<option value="انتيكات">أنتيكات خرز</option>
-<option value="جديد">منتج جديد</option>
+<option value="شنط خرز">شنط خرز</option>
+<option value="ترندات">ترندات</option>
+<option value="فوانيس خرز">فوانيس خرز</option>
 </select>
 
 <input id="img1" placeholder="رابط الصورة 1">
@@ -175,49 +215,33 @@ border-radius:6px;
 <button onclick="addProduct()">إضافة المنتج</button>
 </div>
 
-<!-- صفحة الدفع -->
-<div class="checkout" id="checkout">
-<h2>إتمام الطلب</h2>
-
-<input id="custName" placeholder="الاسم بالكامل">
-<input id="custPhone" placeholder="رقم الهاتف">
-<input id="custAddress" placeholder="العنوان بالكامل">
-
-<button onclick="cashOrder()">الدفع عند الاستلام</button>
-
-<br><br>
-
-<h3>الدفع بالتحويل البنكي</h3>
-
-<div style="background:#1a1a1a;padding:15px;border-radius:10px">
-<p>اسم البنك: بنك الإسكندرية</p>
-<p>اسم صاحب الحساب: Esraa Saber</p>
-<p>رقم الحساب: 503068436001</p>
-<p>بعد التحويل ابعتي صورة التحويل على واتساب لتأكيد الطلب</p>
-</div>
-
-<button onclick="bankTransfer()">تم التحويل</button>
-</div>
-
 <script>
 
 let password = "esraa2026";
 let products = JSON.parse(localStorage.getItem("products") || "[]");
-let cart = [];
 let currentFilter = "all";
 
 function showProducts(){
 let box = "";
+let searchValue = document.getElementById("searchInput").value.toLowerCase();
 
 products.forEach((p,index)=>{
 
 if(currentFilter !== "all" && p.category !== currentFilter) return;
+if(!p.name.toLowerCase().includes(searchValue)) return;
 
 box += `
 <div class="product">
 <img src="${p.img1}">
 <h3>${p.name}</h3>
+
 <div class="price">${p.price} ريال</div>
+
+<div class="free">
+<span>🚚</span>
+الشحن مجانًا
+</div>
+
 <p>${p.category}</p>
 
 <button onclick="viewProduct(${index})">عرض المنتج</button>
@@ -226,10 +250,13 @@ box += `
 });
 
 document.getElementById("products").innerHTML = box;
-document.getElementById("cartCount").innerText = cart.length;
 }
 
 showProducts();
+
+function searchProducts(){
+showProducts();
+}
 
 function filter(cat){
 currentFilter = cat;
@@ -285,72 +312,27 @@ document.body.innerHTML = `
 <div style="padding:20px">
 <img src="${p.img1}" style="width:100%">
 ${p.img2 ? `<img src="${p.img2}" style="width:100%;margin-top:10px">` : ""}
+
 <h2>${p.name}</h2>
 <div class="price">${p.price} ريال</div>
+
+<div class="free">
+<span>🚚</span>
+الشحن مجانًا
+</div>
+
 <p>${p.category}</p>
 
 ${p.video ? `<video controls style="width:100%;margin-top:10px;"><source src="${p.video}"></video>` : ""}
 
-<button onclick="addToCart(${index})">اضافة للسلة</button>
 <button onclick="goBack()">رجوع للمتجر</button>
-</div>`;
+</div>
+`;
 }
 
 function goBack(){location.reload();}
 
-function addToCart(index){
-cart.push(products[index]);
-document.getElementById("cartCount").innerText = cart.length;
-}
-
-function openCheckout(){
-document.getElementById("products").style.display="none";
-document.getElementById("checkout").style.display="block";
-}
-
-function cashOrder(){
-let name = document.getElementById("custName").value;
-let phone = document.getElementById("custPhone").value;
-let address = document.getElementById("custAddress").value;
-
-if(!name || !phone || !address){alert("اكتبي كل البيانات");return;}
-
-let message = "طلب جديد من الموقع%0A";
-
-cart.forEach(p=>{
-message += p.name + " - " + p.price + " ريال%0A";
-});
-
-message += "%0Aالاسم: " + name;
-message += "%0Aرقم الهاتف: " + phone;
-message += "%0Aالعنوان: " + address;
-message += "%0Aطريقة الدفع: عند الاستلام";
-
-window.open("https://wa.me/201000000000?text="+message);
-}
-
-function bankTransfer(){
-let name = document.getElementById("custName").value;
-let phone = document.getElementById("custPhone").value;
-let address = document.getElementById("custAddress").value;
-
-if(!name || !phone || !address){alert("اكتبي كل البيانات");return;}
-
-let message = "طلب جديد من الموقع%0A";
-
-cart.forEach(p=>{
-message += p.name + " - " + p.price + " ريال%0A";
-});
-
-message += "%0Aالاسم: " + name;
-message += "%0Aرقم الهاتف: " + phone;
-message += "%0Aالعنوان: " + address;
-message += "%0Aطريقة الدفع: تحويل بنكي";
-
-window.open("https://wa.me/201000000000?text="+message);
-}
-
 </script>
 
 </body>
-  </html>
+</html>
