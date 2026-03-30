@@ -238,3 +238,80 @@ function addProduct() {
   document.getElementById('productImg').value = "";
 }
 </script>
+<!-- زر + لإضافة منتج -->
+<button id="addProductBtn" style="position:fixed; bottom:20px; right:20px; font-size:30px; width:60px; height:60px; border-radius:50%; background:green; color:white; border:none; cursor:pointer;">+</button>
+
+<!-- نموذج إضافة المنتج (مخفي) -->
+<div id="productFormContainer" style="display:none; position:fixed; bottom:90px; right:20px; width:300px; padding:15px; background:white; border:1px solid #ccc; border-radius:8px; box-shadow:0 0 10px rgba(0,0,0,0.2); z-index:1000;">
+  <h3>إضافة منتج جديد</h3>
+  <input type="password" id="productPassword" placeholder="كلمة السر" style="width:100%; padding:8px; margin:5px 0;">
+  <input type="text" id="productName" placeholder="اسم المنتج" style="width:100%; padding:8px; margin:5px 0;">
+  <input type="text" id="productPrice" placeholder="السعر بعد الخصم" style="width:100%; padding:8px; margin:5px 0;">
+  <input type="text" id="productOldPrice" placeholder="السعر قبل الخصم" style="width:100%; padding:8px; margin:5px 0;">
+  <input type="text" id="productImage" placeholder="رابط الصورة (PNG أو JPG)" style="width:100%; padding:8px; margin:5px 0;">
+  <input type="text" id="productDescription" placeholder="وصف المنتج" style="width:100%; padding:8px; margin:5px 0;">
+  <button onclick="submitProduct()" style="width:100%; padding:10px; margin-top:5px; background:green; color:white; border:none; cursor:pointer;">أضف المنتج</button>
+</div>
+
+<!-- مكان عرض المنتجات -->
+<div id="productsContainer" style="display:flex; flex-wrap:wrap; gap:15px; margin-top:20px;"></div>
+
+<script>
+// كلمة السر
+const secretPassword = "esraa2026";
+
+// إظهار وإخفاء نموذج إضافة المنتج عند الضغط على +
+document.getElementById('addProductBtn').addEventListener('click', () => {
+  const form = document.getElementById('productFormContainer');
+  form.style.display = (form.style.display === 'none') ? 'block' : 'none';
+});
+
+// إضافة المنتج
+function submitProduct() {
+  const password = document.getElementById('productPassword').value;
+  if(password !== secretPassword){
+    alert("كلمة السر غير صحيحة!");
+    return;
+  }
+
+  const name = document.getElementById('productName').value;
+  const price = document.getElementById('productPrice').value;
+  const oldPrice = document.getElementById('productOldPrice').value;
+  const image = document.getElementById('productImage').value;
+  const desc = document.getElementById('productDescription').value;
+
+  if(!name || !price || !image) {
+    alert("من فضلك املأي كل الحقول المطلوبة!");
+    return;
+  }
+
+  // إنشاء عنصر المنتج
+  const productDiv = document.createElement('div');
+  productDiv.style.width = "200px";
+  productDiv.style.border = "1px solid #ddd";
+  productDiv.style.borderRadius = "8px";
+  productDiv.style.padding = "10px";
+  productDiv.style.boxSizing = "border-box";
+  productDiv.style.textAlign = "center";
+
+  productDiv.innerHTML = `
+    <img src="${image}" alt="${name}" style="width:100%; height:auto; border-radius:6px;">
+    <h4>${name}</h4>
+    <p><span style="text-decoration:line-through; color:red;">${oldPrice}</span> <span style="color:green; font-weight:bold;">${price}</span></p>
+    <p style="font-size:14px;">${desc}</p>
+  `;
+
+  document.getElementById('productsContainer').appendChild(productDiv);
+
+  // مسح الحقول
+  document.getElementById('productName').value = '';
+  document.getElementById('productPrice').value = '';
+  document.getElementById('productOldPrice').value = '';
+  document.getElementById('productImage').value = '';
+  document.getElementById('productDescription').value = '';
+  document.getElementById('productPassword').value = '';
+
+  // إخفاء النموذج بعد الإضافة
+  document.getElementById('productFormContainer').style.display = 'none';
+}
+</script>
