@@ -187,3 +187,54 @@ window.open("https://wa.me/201091007426?text=" + msg);
 function showHome(){location.reload();}
 </script></body>
 </html>
+<!-- بداية قسم المنتجات -->
+<div id="product-container" style="display:flex; flex-wrap: wrap; gap: 20px;"></div>
+
+<!-- نموذج إضافة منتج -->
+<div style="margin-top: 20px; border:1px solid #ccc; padding:10px;">
+  <input id="productName" placeholder="اسم المنتج" /><br/><br/>
+  <input id="productDesc" placeholder="الوصف" /><br/><br/>
+  <input id="productPrice" placeholder="السعر" type="number" /><br/><br/>
+  <input id="productDiscount" placeholder="السعر بعد الخصم" type="number" /><br/><br/>
+  <input id="productImg" placeholder="رابط الصورة" /><br/><br/>
+  <button onclick="addProduct()">➕ إضافة المنتج</button>
+</div>
+
+<script>
+function addProduct() {
+  const name = document.getElementById('productName').value;
+  const desc = document.getElementById('productDesc').value;
+  const price = document.getElementById('productPrice').value;
+  const discount = document.getElementById('productDiscount').value;
+  const img = document.getElementById('productImg').value;
+
+  if(!name || !img || !price) {
+    alert("الرجاء إدخال الاسم، الصورة والسعر");
+    return;
+  }
+
+  const container = document.getElementById('product-container');
+  const productDiv = document.createElement('div');
+  productDiv.style.border = "1px solid #ccc";
+  productDiv.style.padding = "10px";
+  productDiv.style.width = "200px";
+  productDiv.style.textAlign = "center";
+  
+  productDiv.innerHTML = `
+    <img src="${img}" alt="${name}" style="width:100%; height:150px; object-fit:cover;"/><br/>
+    <h3>${name}</h3>
+    <p>${desc}</p>
+    <p>السعر: <span style="text-decoration:line-through">${price} ريال</span></p>
+    <p>بعد الخصم: <span style="color:red">${discount || price} ريال</span></p>
+  `;
+
+  container.appendChild(productDiv);
+
+  // مسح البيانات بعد الإضافة
+  document.getElementById('productName').value = "";
+  document.getElementById('productDesc').value = "";
+  document.getElementById('productPrice').value = "";
+  document.getElementById('productDiscount').value = "";
+  document.getElementById('productImg').value = "";
+}
+</script>
