@@ -1,338 +1,189 @@
-<!DOCTYPE html>
-<html lang="ar">
+<!DOCTYPE html><html lang="ar">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>متجر واحد لكل اللي تحتاجيه</title>
+<title>متجر إسراء - كل اللي تحتاجيه في مكان واحد</title><style>
+body{margin:0;font-family:Arial;background:#ffffff;color:#222;padding-bottom:90px;}
+header{background:white;padding:16px;text-align:center;font-size:20px;font-weight:bold;border-bottom:1px solid #eee;}
 
-<style>
-body{
-margin:0;
-font-family:Arial;
-background:#0f0f0f;
+.searchBox{padding:15px;background:white;border-bottom:1px solid #eee;}
+.searchBox input{width:100%;padding:12px;border:none;border-radius:12px;font-size:16px;background:#f5f5f5;}
+
+.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;padding:14px;}
+.product{background:white;border-radius:12px;padding:10px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.06);position:relative;}
+.product img{width:100%;border-radius:10px;}
+
+.cartIcon{
+position:absolute;
+top:10px;
+right:10px;
+background:#ff3b5c;
 color:white;
-}
-
-header{
-background:black;
-padding:15px;
-text-align:center;
-font-size:22px;
-font-weight:bold;
-}
-
-/* البحث */
-.searchBox{
-padding:15px;
-background:#111;
-}
-
-.searchBox input{
-width:100%;
-padding:12px;
-border:none;
-border-radius:10px;
-font-size:16px;
-}
-
-/* الاقسام */
-.categories{
-display:flex;
-gap:10px;
-overflow:auto;
-padding:15px;
-background:#111;
-}
-
-.categories button{
-background:#1a1a1a;
-color:white;
-border:none;
-padding:10px 15px;
-border-radius:20px;
-cursor:pointer;
-white-space:nowrap;
-}
-
-.categories button:hover{
-background:#00ff9c;
-color:black;
-}
-
-/* المنتجات */
-.products{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-gap:20px;
-padding:20px;
-}
-
-.product{
-background:#1a1a1a;
-border-radius:15px;
-padding:15px;
-text-align:center;
-}
-
-.product img{
-width:100%;
-border-radius:10px;
-margin-bottom:8px;
-}
-
-/* السعر */
-.price{
-color:#ffffff;
-font-size:20px;
-font-weight:bold;
-margin-top:10px;
-}
-
-/* الشحن المجاني */
-.free{
+width:34px;
+height:34px;
+border-radius:50%;
 display:flex;
 align-items:center;
 justify-content:center;
-gap:8px;
-color:#00ff66;
-font-size:22px;
-font-weight:900;
-margin:8px 0 12px 0;
-}
-
-/* ايقونة التوصيل */
-.free span{
-font-size:26px;
-}
-
-/* الازرار */
-button{
-background:#00ff9c;
-color:black;
-border:none;
-padding:10px;
-width:100%;
-border-radius:8px;
-margin-top:6px;
+font-size:18px;
 cursor:pointer;
-font-weight:bold;
 }
 
-.addBtn{
-position:fixed;
-bottom:90px;
-right:20px;
-background:#007bff;
+.price{color:#ff3b5c;font-size:18px;font-weight:bold;margin-top:8px;}
+.free{font-size:14px;color:#ff3b5c;font-weight:bold;margin-top:6px;}
+
+.cartCount{
+position:absolute;
+top:-5px;
+left:-5px;
+background:black;
 color:white;
-padding:14px;
+font-size:12px;
+width:20px;
+height:20px;
 border-radius:50%;
-font-size:22px;
-cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
 }
 
-/* زر واتساب */
-.whatsapp{
-position:fixed;
-bottom:20px;
-right:20px;
-background:#25D366;
-color:white;
-padding:12px 16px;
-border-radius:30px;
-text-decoration:none;
-font-weight:bold;
-}
+.bottomNav{position:fixed;bottom:0;left:0;width:100%;background:white;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;}
+.navItem{text-align:center;font-size:13px;color:#444;cursor:pointer;position:relative;}
+.navIcon{font-size:20px;display:block;margin-bottom:4px;}
 
-/* فورم الادمن */
-.formBox{
-display:none;
-position:fixed;
-top:50%;
-left:50%;
-transform:translate(-50%,-50%);
-background:#111;
-padding:20px;
-border-radius:15px;
-width:90%;
-max-width:400px;
-}
+.cartItem{padding:15px;border-bottom:1px solid #eee;display:flex;gap:12px;align-items:center;}
+.cartItem img{width:70px;height:70px;border-radius:10px;object-fit:cover;}
+.deleteBtn{background:#ff3b5c;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin-top:5px;}
+.quantityBox{display:flex;align-items:center;gap:5px;margin-top:5px;}
+.qtyBtn{background:#eee;border:none;padding:5px 8px;border-radius:6px;cursor:pointer;font-weight:bold;}
+.totalBox{padding:15px;font-size:18px;font-weight:bold;display:flex;justify-content:space-between;border-top:1px solid #eee;}
+.orderBtn{position:fixed;bottom:70px;left:0;width:100%;background:#ff3b5c;color:white;padding:14px;border:none;font-size:16px;font-weight:bold;}
 
-input,select{
-width:100%;
-padding:10px;
-margin:6px 0;
-border:none;
-border-radius:6px;
-}
-</style>
-</head>
-
-<body>
-
-<header>متجر واحد لكل اللي تحتاجيه في مكان واحد. 🛍️</header>
-
+.bankBox{padding:20px;text-align:center;}
+.bankImg{width:90%;border-radius:12px;margin-top:15px;}
+.sendBtn{background:#25D366;color:white;border:none;padding:14px;width:100%;border-radius:12px;font-size:16px;font-weight:bold;margin-top:15px;}
+.inputBox{padding:0 20px;margin-top:15px;}
+.inputBox input{width:100%;padding:10px;margin:6px 0;border:1px solid #ddd;border-radius:8px;}
+</style></head><body>
+<header>متجر إسراء 🤍</header>
+<div id="homePage">
 <div class="searchBox">
 <input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="searchProducts()">
 </div>
-
-<div class="categories">
-<button onclick="filter('all')">كل المنتجات</button>
-<button onclick="filter('شنط خرز')">شنط خرز</button>
-<button onclick="filter('ترندات')">ترندات</button>
-<button onclick="filter('فوانيس خرز')">فوانيس خرز</button>
-</div>
-
 <div class="products" id="products"></div>
-
-<div class="addBtn" onclick="openLogin()">+</div>
-
-<a class="whatsapp" href="https://wa.me/201091007426">واتساب</a>
-
-<!-- تسجيل دخول الادمن -->
-<div class="formBox" id="loginBox">
-<h3>كلمة السر</h3>
-<input type="password" id="pass">
-<button onclick="login()">دخول</button>
+</div><div class="bottomNav">
+<div class="navItem" onclick="showHome()">
+<span class="navIcon">🏬</span>
+المتجر
 </div>
-
-<!-- إضافة منتج -->
-<div class="formBox" id="addBox">
-<h3>إضافة منتج</h3>
-
-<input id="name" placeholder="اسم المنتج">
-<input id="price" placeholder="السعر بالريال">
-
-<select id="category">
-<option value="شنط خرز">شنط خرز</option>
-<option value="ترندات">ترندات</option>
-<option value="فوانيس خرز">فوانيس خرز</option>
-</select>
-
-<input id="img1" placeholder="رابط الصورة 1">
-<input id="img2" placeholder="رابط الصورة 2">
-<input id="video" placeholder="رابط الفيديو (اختياري)">
-
-<button onclick="addProduct()">إضافة المنتج</button>
+<div class="navItem" onclick="showCart()">
+<span class="navIcon">👜</span>
+<span class="cartCount" id="cartCount">0</span>
+حقيبة التسوق
 </div>
-
-<script>
-
-let password = "esraa2026";
+</div><script>
 let products = JSON.parse(localStorage.getItem("products") || "[]");
-let currentFilter = "all";
+let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+
+function updateCartCount(){
+document.getElementById("cartCount").innerText = cart.length;
+}
 
 function showProducts(){
 let box = "";
 let searchValue = document.getElementById("searchInput").value.toLowerCase();
-
 products.forEach((p,index)=>{
-
-if(currentFilter !== "all" && p.category !== currentFilter) return;
 if(!p.name.toLowerCase().includes(searchValue)) return;
-
-box += `
-<div class="product">
+box += `<div class="product">
+<div class="cartIcon" onclick="addToCart(${index})">🛒</div>
 <img src="${p.img1}">
-<h3>${p.name}</h3>
-
+<h4>${p.name}</h4>
 <div class="price">${p.price} ريال</div>
-
-<div class="free">
-<span>🚚</span>
-الشحن مجانًا
-</div>
-
-<p>${p.category}</p>
-
-<button onclick="viewProduct(${index})">عرض المنتج</button>
-<button onclick="deleteProduct(${index})">حذف المنتج</button>
+<div class="free">شحن مجاني</div>
 </div>`;
 });
-
 document.getElementById("products").innerHTML = box;
+updateCartCount();
 }
-
 showProducts();
+function searchProducts(){showProducts();}
 
-function searchProducts(){
-showProducts();
+function addToCart(index){
+cart.push({...products[index], qty:1});
+localStorage.setItem("cart", JSON.stringify(cart));
+updateCartCount();
+alert("تم إضافة المنتج إلى السلة 👜");
 }
 
-function filter(cat){
-currentFilter = cat;
-showProducts();
-}
-
-function openLogin(){
-document.getElementById("loginBox").style.display="block";
-}
-
-function login(){
-let userPass = document.getElementById("pass").value;
-if(userPass === password){
-document.getElementById("loginBox").style.display="none";
-document.getElementById("addBox").style.display="block";
-}else{
-alert("كلمة السر غلط");
-}
-}
-
-function addProduct(){
-let name = document.getElementById("name").value;
-let price = document.getElementById("price").value;
-let category = document.getElementById("category").value;
-let img1 = document.getElementById("img1").value;
-let img2 = document.getElementById("img2").value;
-let video = document.getElementById("video").value;
-
-products.push({name,price,category,img1,img2,video});
-localStorage.setItem("products", JSON.stringify(products));
-
-showProducts();
-document.getElementById("addBox").style.display="none";
-}
-
-function deleteProduct(index){
-let pass = prompt("اكتبي كلمة السر");
-if(pass === password){
-products.splice(index,1);
-localStorage.setItem("products", JSON.stringify(products));
-showProducts();
-}else{
-alert("كلمة السر غلط");
-}
-}
-
-function viewProduct(index){
-let p = products[index];
-
-document.body.innerHTML = `
-<header>${p.name}</header>
-
-<div style="padding:20px">
-<img src="${p.img1}" style="width:100%">
-${p.img2 ? `<img src="${p.img2}" style="width:100%;margin-top:10px">` : ""}
-
-<h2>${p.name}</h2>
-<div class="price">${p.price} ريال</div>
-
-<div class="free">
-<span>🚚</span>
-الشحن مجانًا
+function showCart(){
+let html = "<h2 style='padding:20px'>حقيبة التسوق 👜</h2>";
+let total = 0;
+cart.forEach((p,i)=>{
+ total += Number(p.price) * p.qty;
+ html += `<div class="cartItem">
+<img src="${p.img1}">
+<div>
+<h4>${p.name}</h4>
+<div style="color:#ff3b5c;font-weight:bold">${p.price} ريال</div>
+<div class="quantityBox">
+<button class="qtyBtn" onclick="changeQty(${i},-1)">-</button>
+<span>${p.qty}</span>
+<button class="qtyBtn" onclick="changeQty(${i},1)">+</button>
 </div>
-
-<p>${p.category}</p>
-
-${p.video ? `<video controls style="width:100%;margin-top:10px;"><source src="${p.video}"></video>` : ""}
-
-<button onclick="goBack()">رجوع للمتجر</button>
+<button class="deleteBtn" onclick="removeFromCart(${i})">حذف المنتج</button>
 </div>
-`;
+</div>`;
+});
+html += `<div class="totalBox"><span>عدد المنتجات: ${cart.length}</span><span>الإجمالي: ${total} ريال</span></div>`;
+html += `<div class="inputBox">
+<input type='text' id='custName' placeholder='اسم العميل'>
+<input type='text' id='custPhone' placeholder='رقم الهاتف'>
+<input type='text' id='custAddress' placeholder='العنوان'>
+</div>`;
+html += `<button class="orderBtn" onclick="goToBankTransfer(${total})">إتمام الطلب</button>`;
+document.getElementById("homePage").innerHTML = html;
+updateCartCount();
 }
 
-function goBack(){location.reload();}
+function changeQty(index,delta){
+cart[index].qty += delta;
+if(cart[index].qty<1) cart[index].qty=1;
+localStorage.setItem("cart", JSON.stringify(cart));
+showCart();
+}
 
-</script>
+function removeFromCart(index){
+cart.splice(index,1);
+localStorage.setItem("cart", JSON.stringify(cart));
+showCart();
+}
 
-</body>
+function goToBankTransfer(total){
+let name = document.getElementById('custName').value || '---';
+let phone = document.getElementById('custPhone').value || '---';
+let address = document.getElementById('custAddress').value || '---';
+
+let message = `طلب جديد:%0Aالاسم: ${name}%0Aرقم الهاتف: ${phone}%0Aالعنوان: ${address}%0A`;
+cart.forEach(p=>{
+ message += `- ${p.name} (الكمية: ${p.qty}) - ${p.price} ريال%0A`;
+});
+message += `%0Aعدد المنتجات: ${cart.length}%0Aالإجمالي: ${total} ريال`;
+localStorage.setItem("orderMessage", message);
+
+let html = `<div class="bankBox">
+<h2>صورة التحويل البنكي</h2>
+<p>اعملي التحويل وابعتي صورة التحويل على واتساب</p>
+<img class="bankImg" src="PUT-YOUR-BANK-IMAGE-HERE.png">
+<button class="sendBtn" onclick="sendWhatsAppOrder()">إرسال الطلب على واتساب</button>
+</div>`;
+document.getElementById("homePage").innerHTML = html;
+}
+
+function sendWhatsAppOrder(){
+let msg = localStorage.getItem("orderMessage");
+window.open("https://wa.me/201091007426?text=" + msg);
+}
+
+function showHome(){location.reload();}
+</script></body>
 </html>
