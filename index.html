@@ -251,3 +251,60 @@ function promptDeleteProduct(){
   }
 }
     </script>
+// حذف منتج من المنتجات بكلمة سر
+function promptDeleteProduct(){
+  let pwd = prompt("أدخل كلمة المرور لحذف المنتج:");
+  if(pwd !== "esraa2026"){ 
+    alert("كلمة المرور غير صحيحة"); 
+    return; 
+  }
+  if(products.length === 0){
+    alert("لا يوجد منتجات للحذف");
+    return;
+  }
+  let list = "اختر رقم المنتج لحذفه:\n";
+  products.forEach((p,i)=>{
+    list += `${i+1} - ${p.name}\n`;
+  });
+  let choice = prompt(list);
+  let index = parseInt(choice)-1;
+  if(index >= 0 && index < products.length){
+    if(confirm(`هل أنت متأكد من حذف المنتج "${products[index].name}"؟`)){
+      products.splice(index,1);
+      localStorage.setItem("products", JSON.stringify(products));
+      showProducts();
+      alert("تم حذف المنتج بنجاح ✅");
+    }
+  } else {
+    alert("رقم غير صحيح");
+  }
+}
+    <!-- أضف هذا تحت زر + لإضافة المنتج مباشرة في الـ HTML -->
+<div class="addProductBtn" style="bottom:180px; background:red;" onclick="promptDeleteProduct()">🗑</div>// حذف منتج من المنتجات بكلمة سر
+function promptDeleteProduct(){
+  let pwd = prompt("أدخل كلمة المرور لحذف المنتج:");
+  if(pwd !== "esraa2026"){ 
+    alert("كلمة المرور غير صحيحة"); 
+    return; 
+  }
+  if(products.length === 0){
+    alert("لا يوجد منتجات للحذف");
+    return;
+  }
+  let list = "اختر رقم المنتج لحذفه:\n";
+  products.forEach((p,i)=>{
+    list += `${i+1} - ${p.name}\n`;
+  });
+  let choice = prompt(list);
+  let index = parseInt(choice)-1;
+  if(index >= 0 && index < products.length){
+    if(confirm(`هل أنت متأكد من حذف المنتج "${products[index].name}"؟`)){
+      products.splice(index,1);
+      localStorage.setItem("products", JSON.stringify(products));
+      showProducts();
+      alert("تم حذف المنتج بنجاح ✅");
+    }
+  } else {
+    alert("رقم غير صحيح");
+  }
+}
