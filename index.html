@@ -6,130 +6,152 @@
 <title>Esraa creative</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#fff;padding-bottom:160px;}
+body{margin:0;font-family:Arial;background:#fff;padding-bottom:180px;}
 header{background:white;padding:16px;text-align:center;font-size:20px;font-weight:bold;border-bottom:1px solid #eee;}
 
 /* البحث */
 .searchBox{padding:15px;background:white;border-bottom:1px solid #eee;}
 .searchBox input{width:100%;padding:10px;border:none;border-radius:10px;background:#f5f5f5;}
 
-/* الأقسام بالأيقونات */
+/* الأقسام */
 .categories{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:15px;background:white;}
 .categoryBox{text-align:center;cursor:pointer;}
 .categoryIcon{width:55px;height:55px;background:#f6f6f6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:auto;transition:0.2s;}
 .categoryBox.active .categoryIcon{background:#25D366;color:white;}
 .categoryName{margin-top:6px;font-size:13px;}
 
-/* المنتجات بحجم أكبر وتصميم أجمل */
-.products {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-  gap: 15px;
-  padding: 15px;
-}
-@media (min-width: 768px) {
-  .products { grid-template-columns: repeat(3, 1fr); }
-}
-.product {
-  background: white;
-  border-radius: 12px;
-  overflow: hidden;
-  text-align: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-  position: relative;
-  transition: transform 0.2s;
-}
-.product:hover { transform: translateY(-4px); }
-.product img { width:100%; height:200px; object-fit:cover; }
-.product h4 { font-size:16px; margin:10px 0 6px 0; font-weight:bold; min-height:40px; }
-.price { color:#ff3b5c; font-weight:bold; font-size:16px; }
-.oldPrice { color:#999; text-decoration:line-through; font-size:13px; margin-top:2px; }
-.discountBadge { position:absolute; top:10px; left:10px; background:#25D366; color:white; font-size:13px; padding:4px 8px; border-radius:6px; }
-.freeShipping { color:#25D366; font-size:13px; font-weight:bold; margin-top:4px; }
-.cartBtn { background:#25D366; color:white; border:none; padding:10px 0; border-radius:8px; font-size:15px; margin-top:10px; width:90%; cursor:pointer; transition: background 0.2s; }
-.cartBtn:hover { background:#1da851; }
+/* المنتجات */
+.products{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px; padding:15px;}
+@media(min-width:768px){.products{grid-template-columns:repeat(3,1fr);}}
+.product{ background:white; border-radius:12px; overflow:hidden; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.08); position:relative; transition: transform 0.2s; cursor:pointer;}
+.product:hover{transform:translateY(-4px);}
+.product img{width:100%; height:200px; object-fit:cover;}
+.product h4{font-size:16px;margin:10px 0 4px;font-weight:bold;}
+.product p{font-size:13px;color:#555;margin:4px 0;}
+.price{color:#ff3b5c;font-weight:bold;font-size:16px;}
+.oldPrice{color:#999;text-decoration:line-through;font-size:13px;margin-top:2px;}
+.discountBadge{position:absolute; top:10px; left:10px; background:#25D366; color:white; font-size:13px; padding:4px 8px; border-radius:6px;}
+.freeShipping{color:#25D366; font-size:13px; font-weight:bold; margin-top:4px;}
+.cartBtn{background:#25D366; color:white; border:none; padding:10px 0; border-radius:8px; font-size:15px; margin-top:10px; width:90%; cursor:pointer; transition: background 0.2s;}
+.cartBtn:hover{background:#1da851;}
 
-/* زر الإضافة والحذف */
+/* إضافة وحذف منتجات */
 .addProductBtn,.deleteProductBtn{position:fixed;right:15px;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2);}
-.addProductBtn{bottom:120px;background:#25D366;color:white;}
-.deleteProductBtn{bottom:180px;background:red;color:white;}
+.addProductBtn{bottom:150px;background:#25D366;color:white;}
+.deleteProductBtn{bottom:220px;background:red;color:white;}
 
 /* متجر وحقيبة التسوق */
 .bottomBar{position:fixed;bottom:0;left:0;width:100%;background:white;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:10px 0;box-shadow:0 -2px 6px rgba(0,0,0,0.1);}
 .bottomBar div{font-size:14px;color:#333;cursor:pointer;display:flex;flex-direction:column;align-items:center;}
 .bottomBar div span{font-size:18px;margin-bottom:4px;}
+
+/* نموذج الطلب */
+#orderForm{display:none; position:fixed; bottom:60px; left:0; width:100%; background:white; padding:15px; box-shadow:0 -2px 10px rgba(0,0,0,0.2); z-index:999;}
+#orderForm input[type="file"]{margin-bottom:10px;}
+#orderForm img{max-width:100%; margin-bottom:10px; border-radius:8px;}
+.quantityControl{display:flex; justify-content:center; align-items:center; margin:4px 0;}
+.quantityControl button{padding:4px 8px; font-size:16px; margin:0 6px; cursor:pointer; border:none; border-radius:6px; background:#25D366; color:white;}
+.quantityControl span{font-size:16px; min-width:24px; text-align:center;}
+
+/* صفحة المنتج */
+#productPage{display:none; padding:15px;}
+#productPage img{width:100%; max-height:400px; object-fit:cover; border-radius:10px; cursor:pointer;}
+
+/* الزوم */
+#zoomOverlay{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);justify-content:center;align-items:center;z-index:2000;overflow:hidden;}
+#zoomOverlay img{transform-origin:center center; touch-action:none; max-width:100%; max-height:100%;}
 </style>
 </head>
 <body>
 
 <header>Esraa creative 🤍</header>
 
-<div class="searchBox">
-<input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="showProducts()">
+<div id="mainPage">
+  <div class="searchBox">
+  <input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="showProducts()">
+  </div>
+
+  <div class="categories">
+    <div class="categoryBox active" onclick="filterCategory('all',this)"><div class="categoryIcon">🛍️</div><div class="categoryName">كل المنتجات</div></div>
+    <div class="categoryBox" onclick="filterCategory('تريندات',this)"><div class="categoryIcon">🔥</div><div class="categoryName">تريندات</div></div>
+    <div class="categoryBox" onclick="filterCategory('هاند ميد',this)"><div class="categoryIcon">🧶</div><div class="categoryName">هاند ميد</div></div>
+    <div class="categoryBox" onclick="filterCategory('خمارات',this)"><div class="categoryIcon">🧕</div><div class="categoryName">خمارات</div></div>
+    <div class="categoryBox" onclick="filterCategory('عبايات',this)"><div class="categoryIcon">👗</div><div class="categoryName">عبايات</div></div>
+    <div class="categoryBox" onclick="filterCategory('الشنط',this)"><div class="categoryIcon">👜</div><div class="categoryName">الشنط</div></div>
+    <div class="categoryBox" onclick="filterCategory('دريسات محجبات',this)"><div class="categoryIcon">👚</div><div class="categoryName">دريسات محجبات</div></div>
+  </div>
+
+  <div class="products" id="products"></div>
 </div>
 
-<!-- الأقسام بالأيقونات -->
-<div class="categories">
-<div class="categoryBox active" onclick="filterCategory('all',this)"><div class="categoryIcon">🛍️</div><div class="categoryName">كل المنتجات</div></div>
-<div class="categoryBox" onclick="filterCategory('تريندات',this)"><div class="categoryIcon">🔥</div><div class="categoryName">تريندات</div></div>
-<div class="categoryBox" onclick="filterCategory('هاند ميد',this)"><div class="categoryIcon">🧶</div><div class="categoryName">هاند ميد</div></div>
-<div class="categoryBox" onclick="filterCategory('خمارات',this)"><div class="categoryIcon">🧕</div><div class="categoryName">خمارات</div></div>
-<div class="categoryBox" onclick="filterCategory('عبايات',this)"><div class="categoryIcon">👗</div><div class="categoryName">عبايات</div></div>
-<div class="categoryBox" onclick="filterCategory('الشنط',this)"><div class="categoryIcon">👜</div><div class="categoryName">الشنط</div></div>
-<div class="categoryBox" onclick="filterCategory('دريسات محجبات',this)"><div class="categoryIcon">👚</div><div class="categoryName">دريسات محجبات</div></div>
+<!-- صفحة المنتج المنفصلة -->
+<div id="productPage">
+  <button onclick="backToMain()" style="margin-bottom:10px;">⬅ العودة للمتجر</button>
+  <img id="singleImg" onclick="zoomImage(this.src)">
+  <h2 id="singleName"></h2>
+  <p id="singleDesc"></p>
+  <div class="price" id="singlePrice"></div>
+  <div class="oldPrice" id="singleOldPrice"></div>
+  <div id="singleDiscount"></div>
+  <div class="quantityControl" style="justify-content:center;">
+    <button onclick="changeSingleQty(-1)">-</button>
+    <span id="singleQty">1</span>
+    <button onclick="changeSingleQty(1)">+</button>
+  </div>
+  <button class="cartBtn" onclick="addSingleToCart()">أضف للسلة</button>
 </div>
 
-<!-- عرض المنتجات -->
-<div class="products" id="products"></div>
-
-<!-- زر الإضافة -->
 <div class="addProductBtn" onclick="promptAddProduct()">+</div>
-
-<!-- زر الحذف -->
 <div class="deleteProductBtn" onclick="promptDeleteProduct()">🗑️</div>
 
 <!-- نموذج الطلب -->
-<div id="orderForm" style="display:none; position:fixed; bottom:60px; left:0; width:100%; background:white; padding:15px; box-shadow:0 -2px 10px rgba(0,0,0,0.2); z-index:999;">
+<div id="orderForm">
 <h3 style="margin-top:0;">إتمام الطلب</h3>
 <div style="background:#f5f5f5; padding:10px; border-radius:10px; margin-bottom:12px; font-size:14px;">
 رقم الحساب للتحويل البنكي:<br><b>503068436001</b>
 </div>
+<div id="cartItems"></div>
+<div style="margin-bottom:10px; font-weight:bold;">الإجمالي: <span id="totalPrice">0</span> ريال</div>
 <input id="customerName" placeholder="اسم العميل" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
 <input id="customerPhone" placeholder="رقم الفون" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
 <input id="customerAddress" placeholder="العنوان بالكامل" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
 <label>صورة التحويل البنكي</label>
-<input type="file" id="bankImage" style="margin-bottom:10px;">
+<input type="file" id="bankImage" onchange="previewBankImage()">
+<img id="bankPreview" style="display:none;">
 <button onclick="sendToWhatsApp()" style="width:100%; background:#25D366; color:white; border:none; padding:12px; border-radius:10px; font-size:16px;">إرسال الطلب على واتساب</button>
 </div>
 
-<!-- متجر وحقيبة التسوق -->
 <div class="bottomBar">
 <div onclick="window.scrollTo(0,0)"><span>🏠</span>المتجر</div>
 <div onclick="document.getElementById('orderForm').style.display='block'"><span>🛒</span>حقيبة التسوق</div>
 </div>
 
+<div id="zoomOverlay" onclick="closeZoom()"><img id="zoomImg"></div>
+
 <script>
-let products = JSON.parse(localStorage.getItem("products") || "[]");
+let products=JSON.parse(localStorage.getItem("products")||"[]");
 let selectedCategory="all";
-let selectedProduct={};
+let cart=[];
+let singleProduct=null;
+let singleQty=1;
 
 /* عرض المنتجات */
 function showProducts(){
   let search=document.getElementById("searchInput").value.toLowerCase();
   let box="";
-  products.forEach(p=>{
+  products.forEach((p,i)=>{
     if(selectedCategory!=="all" && p.category!==selectedCategory) return;
     if(!p.name.toLowerCase().includes(search)) return;
-    let discount=p.oldPrice ? Math.round((p.oldPrice - p.price)/p.oldPrice*100) : null;
+    let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):null;
     box+=`
-    <div class="product">
-      ${discount ? `<div class="discountBadge">خصم ${discount}%</div>` : ""}
+    <div class="product" onclick="openProduct(${i})">
+      ${discount?`<div class="discountBadge">خصم ${discount}%</div>`:""}
       <img src="${p.img1}">
       <h4>${p.name}</h4>
+      <p>${p.description||''}</p>
       <div class="price">${p.price} ريال</div>
-      ${p.oldPrice ? `<div class="oldPrice">${p.oldPrice} ريال</div>` : ""}
+      ${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
       <div class="freeShipping">شحن مجاني 🚚</div>
-      <button class="cartBtn" onclick="orderProduct('${p.name}','${p.price}','${p.oldPrice}')">اطلبي الآن</button>
     </div>`;
   });
   document.getElementById("products").innerHTML=box;
@@ -143,12 +165,85 @@ function filterCategory(cat,el){
   showProducts();
 }
 
-/* طلب منتج */
-function orderProduct(name,price,oldPrice){
-  selectedProduct.name=name;
-  selectedProduct.price=price;
-  selectedProduct.oldPrice=oldPrice;
-  document.getElementById("orderForm").style.display="block";
+/* فتح صفحة المنتج */
+function openProduct(i){
+  singleProduct=products[i];
+  singleQty=1;
+  document.getElementById("mainPage").style.display="none";
+  document.getElementById("productPage").style.display="block";
+  document.getElementById("singleImg").src=singleProduct.img1;
+  document.getElementById("singleName").innerText=singleProduct.name;
+  document.getElementById("singleDesc").innerText=singleProduct.description||'';
+  document.getElementById("singlePrice").innerText=singleProduct.price+" ريال";
+  document.getElementById("singleOldPrice").innerText=singleProduct.oldPrice?singleProduct.oldPrice+" ريال":"";
+  document.getElementById("singleDiscount").innerText=singleProduct.oldPrice?`خصم ${Math.round((singleProduct.oldPrice-singleProduct.price)/singleProduct.oldPrice*100)}%`:"";
+  document.getElementById("singleQty").innerText=singleQty;
+}
+
+/* العودة للمتجر */
+function backToMain(){
+  document.getElementById("productPage").style.display="none";
+  document.getElementById("mainPage").style.display="block";
+}
+
+/* تغيير كمية المنتج الفردي */
+function changeSingleQty(delta){
+  singleQty+=delta;
+  if(singleQty<1) singleQty=1;
+  document.getElementById("singleQty").innerText=singleQty;
+}
+
+/* إضافة المنتج الفردي للسلة */
+function addSingleToCart(){
+  let found=cart.find(p=>p.name===singleProduct.name);
+  if(found) found.qty+=singleQty;
+  else cart.push({...singleProduct, qty:singleQty});
+  showCart();
+  alert("تمت الإضافة للسلة ✅");
+}
+
+/* عرض السلة */
+function showCart(){
+  let html="";
+  let total=0;
+  cart.forEach((p,i)=>{
+    let price=p.price*p.qty;
+    let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):0;
+    html+=`
+    <div style="border-bottom:1px solid #ddd; padding:8px 0;">
+      <strong>${p.name}</strong> - ${p.price} ريال${p.oldPrice?`<span style="color:#999;">(${p.oldPrice} ريال)</span>`:""}
+      <div class="quantityControl">
+        <button onclick="changeQty(${i},-1)">-</button>
+        <span>${p.qty}</span>
+        <button onclick="changeQty(${i},1)">+</button>
+      </div>
+      <div>السعر الكلي: ${price} ريال</div>
+    </div>`;
+    total+=price;
+  });
+  document.getElementById("cartItems").innerHTML=html;
+  document.getElementById("totalPrice").innerText=total;
+}
+
+/* تغيير الكمية */
+function changeQty(i,delta){
+  cart[i].qty+=delta;
+  if(cart[i].qty<1) cart.splice(i,1);
+  showCart();
+}
+
+/* معاينة صورة التحويل البنكي */
+function previewBankImage(){
+  let file=document.getElementById("bankImage").files[0];
+  if(file){
+    let reader=new FileReader();
+    reader.onload=function(e){
+      let img=document.getElementById("bankPreview");
+      img.src=e.target.result;
+      img.style.display='block';
+    }
+    reader.readAsDataURL(file);
+  }
 }
 
 /* إرسال الطلب على واتساب */
@@ -156,63 +251,49 @@ function sendToWhatsApp(){
   let name=document.getElementById("customerName").value;
   let phone=document.getElementById("customerPhone").value;
   let address=document.getElementById("customerAddress").value;
-  if(name==""||phone==""||address==""){alert("من فضلك اكتبي كل البيانات"); return;}
-  let discountText="";
-  if(selectedProduct.oldPrice){
-    let discount=Math.round((selectedProduct.oldPrice-selectedProduct.price)/selectedProduct.oldPrice*100); 
-    discountText="\nنسبة الخصم: "+discount+"%";
-  }
-  let message=
-  "طلب جديد من متجر Esraa creative ✨\n\n"+
-  "اسم العميل: "+name+"\n"+
-  "رقم الفون: "+phone+"\n"+
-  "العنوان: "+address+"\n\n"+
-  "المنتج: "+selectedProduct.name+"\n"+
-  "السعر بعد الخصم: "+selectedProduct.price+" ريال\n"+
-  "السعر قبل الخصم: "+(selectedProduct.oldPrice||"لا يوجد")+
-  discountText+"\n\n"+
-  "تم التحويل على رقم الحساب: 503068436001";
+  if(!name||!phone||!address){alert("من فضلك اكتبي كل البيانات"); return;}
+  if(cart.length===0){alert("لم تضيفي أي منتج"); return;}
+  let message="طلب جديد من متجر Esraa creative ✨\n\n";
+  cart.forEach(p=>{
+    let total=p.price*p.qty;
+    let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):0;
+    message+=`المنتج: ${p.name}\nالسعر بعد الخصم: ${p.price} ريال\n`;
+    if(p.oldPrice) message+=`السعر قبل الخصم: ${p.oldPrice} ريال\nنسبة الخصم: ${discount}%\n`;
+    message+=`الكمية: ${p.qty}\nالسعر الكلي: ${total} ريال\n\n`;
+  });
+  let totalSum=cart.reduce((sum,p)=>sum+p.price*p.qty,0);
+  message+="الإجمالي: "+totalSum+" ريال\n\n";
+  message+="العنوان: "+address+"\n";
+  message+="رقم الفون: "+phone+"\n";
+  message+="تم التحويل على رقم الحساب: 503068436001";
   let whatsapp="https://wa.me/201091007426?text="+encodeURIComponent(message);
   window.open(whatsapp,"_blank");
   document.getElementById("orderForm").style.display="none";
+  cart=[]; showCart();
   alert("تم إرسال الطلب بنجاح 💖");
 }
 
-/* إضافة منتج */
+/* إضافة وحذف منتجات */
 function promptAddProduct(){
   let pass=prompt("كلمة السر:");
   if(pass!=="esraa2026") return alert("كلمة السر غلط");
   let name=prompt("اسم المنتج:");
+  let description=prompt("وصف المنتج:");
   let price=prompt("السعر:");
   let oldPrice=prompt("السعر قبل الخصم:");
   let category=prompt("القسم: تريندات / هاند ميد / خمارات / عبايات / الشنط / دريسات محجبات");
   let img1=prompt("لينك الصورة:");
   if(!name||!price||!img1) return alert("من فضلك اكتبي كل البيانات");
-  products.push({name,price:Number(price),oldPrice:oldPrice?Number(oldPrice):null,category,img1});
+  products.push({name,description,price:Number(price),oldPrice:oldPrice?Number(oldPrice):null,category,img1});
   localStorage.setItem("products",JSON.stringify(products));
   showProducts();
   alert("تمت الإضافة بنجاح ✨");
 }
 
-/* حذف منتج */
 function promptDeleteProduct(){
   let pass=prompt("كلمة السر:");
   if(pass!=="esraa2026") return alert("كلمة السر غلط");
   let list="اختاري رقم المنتج:\n";
   products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
   let choice=parseInt(prompt(list))-1;
-  if(choice>=0){
-    products.splice(choice,1);
-    localStorage.setItem("products",JSON.stringify(products));
-    showProducts();
-    alert("تم الحذف ✅");
-  }
-}
-
-/* تشغيل الصفحة */
-showProducts();
-document.getElementById("searchInput").addEventListener("keyup",showProducts);
-</script>
-
-</body>
-</html>
+  if(choice>=0){ products.splice(choice,1
