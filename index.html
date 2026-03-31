@@ -298,3 +298,97 @@ alert("تم الحذف ✅");
 </script>
 </body>
 </html>
+<!-- نموذج الطلب -->
+<div id="orderForm" style="display:none; position:fixed; bottom:0; left:0; width:100%; background:white; padding:15px; box-shadow:0 -2px 10px rgba(0,0,0,0.2); z-index:999;">
+  
+<h3 style="margin-top:0;">إتمام الطلب</h3>
+
+<div style="background:#f5f5f5; padding:10px; border-radius:10px; margin-bottom:12px; font-size:14px;">
+رقم الحساب للتحويل البنكي:<br>
+<b>503068436001</b>
+</div>
+
+<input id="customerName" placeholder="اسم العميل" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+<input id="customerPhone" placeholder="رقم الفون" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+<input id="customerAddress" placeholder="العنوان بالكامل" style="width:100%; padding:10px; margin-bottom:10px; border-radius:8px; border:1px solid #ddd;">
+
+<label>صورة التحويل البنكي</label>
+<input type="file" id="bankImage" style="margin-bottom:10px;">
+
+<button onclick="sendToWhatsApp()" style="width:100%; background:#25D366; color:white; border:none; padding:12px; border-radius:10px; font-size:16px;">
+إرسال الطلب على واتساب
+</button>
+
+</div>
+
+<style>
+.cartBtn{
+background:#25D366;
+color:white;
+border:none;
+padding:7px 10px;
+border-radius:8px;
+font-size:14px;
+margin-top:8px;
+cursor:pointer;
+}
+</style>
+
+<script>
+
+let selectedProduct = {};
+
+/* زر سلة الشراء */
+function orderProduct(name,price,oldPrice){
+
+selectedProduct.name = name;
+selectedProduct.price = price;
+selectedProduct.oldPrice = oldPrice;
+
+document.getElementById("orderForm").style.display="block";
+}
+
+/* إرسال الطلب على واتساب */
+function sendToWhatsApp(){
+
+let name = document.getElementById("customerName").value;
+let phone = document.getElementById("customerPhone").value;
+let address = document.getElementById("customerAddress").value;
+
+if(name=="" || phone=="" || address==""){
+alert("من فضلك اكتبي كل البيانات");
+return;
+}
+
+/* حساب نسبة الخصم */
+let discountText = "";
+if(selectedProduct.oldPrice){
+let discount = Math.round((selectedProduct.oldPrice - selectedProduct.price) / selectedProduct.oldPrice * 100);
+discountText = "\nنسبة الخصم: " + discount + "%";
+}
+
+let message =
+"طلب جديد من متجر Esraa creative \n\n" +
+
+"اسم العميل: " + name + "\n" +
+"رقم الفون: " + phone + "\n" +
+"العنوان: " + address + "\n\n" +
+
+"المنتج: " + selectedProduct.name + "\n" +
+"السعر بعد الخصم: " + selectedProduct.price + " ريال\n" +
+"السعر قبل الخصم: " + (selectedProduct.oldPrice || "لا يوجد") +
+discountText + "\n\n" +
+
+"تم التحويل على رقم الحساب: 503068436001";
+
+let whatsapp = "https://wa.me/201091007426?text=" + encodeURIComponent(message);
+
+window.open(whatsapp,"_blank");
+
+document.getElementById("orderForm").style.display="none";
+
+alert("تم إرسال الطلب بنجاح 💖");
+
+}
+
+</script>
