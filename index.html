@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Esraa creative</title>
-
 <style>
 body{margin:0;font-family:Arial;background:#fff;padding-bottom:180px;}
 header{background:white;padding:16px;text-align:center;font-size:20px;font-weight:bold;border-bottom:1px solid #eee;}
@@ -14,7 +13,7 @@ header{background:white;padding:16px;text-align:center;font-size:20px;font-weigh
 .searchBox input{width:100%;padding:10px;border:none;border-radius:10px;background:#f5f5f5;}
 
 /* الأقسام */
-.categories{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:15px;background:white;}
+.categories{display:grid;grid-template-columns:repeat(auto-fit,minmax(80px,1fr));gap:12px;padding:15px;background:white;}
 .categoryBox{text-align:center;cursor:pointer;}
 .categoryIcon{width:55px;height:55px;background:#f6f6f6;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;margin:auto;transition:0.2s;}
 .categoryBox.active .categoryIcon{background:#25D366;color:white;}
@@ -22,10 +21,9 @@ header{background:white;padding:16px;text-align:center;font-size:20px;font-weigh
 
 /* المنتجات */
 .products{ display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:15px; padding:15px;}
-@media(min-width:768px){.products{grid-template-columns:repeat(3,1fr);}}
 .product{ background:white; border-radius:12px; overflow:hidden; text-align:center; box-shadow:0 4px 10px rgba(0,0,0,0.08); position:relative; transition: transform 0.2s; cursor:pointer;}
 .product:hover{transform:translateY(-4px);}
-.product img{width:100%; height:200px; object-fit:cover;}
+.product img{width:100%; height:160px; object-fit:cover;}
 .product h4{font-size:16px;margin:10px 0 4px;font-weight:bold;}
 .product p{font-size:13px;color:#555;margin:4px 0;}
 .price{color:#ff3b5c;font-weight:bold;font-size:16px;}
@@ -68,7 +66,7 @@ header{background:white;padding:16px;text-align:center;font-size:20px;font-weigh
 
 <div id="mainPage">
   <div class="searchBox">
-  <input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="showProducts()">
+    <input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="showProducts()">
   </div>
 
   <div class="categories">
@@ -208,7 +206,6 @@ function showCart(){
   let total=0;
   cart.forEach((p,i)=>{
     let price=p.price*p.qty;
-    let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):0;
     html+=`
     <div style="border-bottom:1px solid #ddd; padding:8px 0;">
       <strong>${p.name}</strong> - ${p.price} ريال${p.oldPrice?`<span style="color:#999;">(${p.oldPrice} ريال)</span>`:""}
@@ -296,4 +293,17 @@ function promptDeleteProduct(){
   let list="اختاري رقم المنتج:\n";
   products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
   let choice=parseInt(prompt(list))-1;
-  if(choice>=0){ products.splice(choice,1
+  if(choice>=0 && choice<products.length){
+    products.splice(choice,1);
+    localStorage.setItem("products",JSON.stringify(products));
+    showProducts();
+    alert("تم حذف المنتج ✅");
+  }
+}
+
+/* تكبير الصور */
+function zoomImage(src){
+  document.getElementById("zoomOverlay").style.display="flex";
+  document.getElementById("zoomImg").src=src;
+}
+function close
