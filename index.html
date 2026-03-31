@@ -3,308 +3,298 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Esraa creative - كل اللي تحتاجيه في مكان واحد</title>
+<title>Esraa creative</title>
+
 <style>
-body{margin:0;font-family:Arial;background:#ffffff;color:#222;padding-bottom:120px;}
-header{background:white;padding:16px;text-align:center;font-size:20px;font-weight:bold;border-bottom:1px solid #eee;}
-.searchBox{padding:15px;background:white;border-bottom:1px solid #eee;}
-.searchBox input{width:100%;padding:10px;border:none;border-radius:10px;font-size:14px;background:#f5f5f5;}
 
-.products{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;padding:10px;}
-.product{background:white;border-radius:10px;padding:8px;text-align:center;box-shadow:0 2px 6px rgba(0,0,0,0.06);position:relative;cursor:pointer;}
-.product img{width:100%;border-radius:10px;height:130px;object-fit:cover;}
-.product h4{font-size:14px;margin:6px 0;}
-.price{color:#ff3b5c;font-size:14px;font-weight:bold;margin-top:4px;}
-.oldPrice{color:#888;text-decoration:line-through;font-size:12px;}
-.discountBadge{position:absolute;top:8px;left:8px;background:#25D366;color:white;font-size:12px;font-weight:bold;padding:2px 6px;border-radius:6px;}
+body{margin:0;font-family:Arial;background:#fff;padding-bottom:120px;}
 
-.cartIcon{position:absolute;top:6px;right:6px;background:#ff3b5c;color:white;width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;}
-.cartCount{position:absolute;top:-5px;left:-5px;background:black;color:white;font-size:12px;width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
-.bottomNav{position:fixed;bottom:0;left:0;width:100%;background:white;border-top:1px solid #eee;display:flex;justify-content:space-around;padding:8px 0;}
-.navItem{text-align:center;font-size:12px;color:#444;cursor:pointer;position:relative;}
-.navIcon{font-size:18px;display:block;margin-bottom:2px;}
+header{
+background:white;
+padding:16px;
+text-align:center;
+font-size:20px;
+font-weight:bold;
+border-bottom:1px solid #eee;
+}
 
-.addProductBtn{position:fixed;bottom:120px;right:15px;background:#25D366;color:white;width:50px;height:50px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:28px;cursor:pointer;box-shadow:0 2px 6px rgba(0,0,0,0.2);}
+/* البحث */
+.searchBox{
+padding:15px;
+background:white;
+border-bottom:1px solid #eee;
+}
 
-.modal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;}
-.modalContent{background:white;padding:15px;border-radius:12px;width:90%;max-width:400px;position:relative;}
-.closeModal{position:absolute;top:8px;right:12px;font-size:20px;cursor:pointer;}
+.searchBox input{
+width:100%;
+padding:10px;
+border:none;
+border-radius:10px;
+background:#f5f5f5;
+}
 
-.inputBox input{width:100%;padding:8px;margin:5px 0;border:1px solid #ddd;border-radius:8px;font-size:14px;}
-.sendBtn{background:#25D366;color:white;border:none;padding:10px;width:100%;border-radius:12px;font-size:14px;font-weight:bold;margin-top:8px;}
-.orderBtn{position:fixed;bottom:70px;left:0;width:100%;background:#ff3b5c;color:white;padding:14px;border:none;font-size:16px;font-weight:bold;}
-.totalBox{padding:15px;font-size:16px;font-weight:bold;display:flex;justify-content:space-between;border-top:1px solid #eee;}
-.cartItem{padding:15px;border-bottom:1px solid #eee;display:flex;gap:12px;align-items:center;}
-.cartItem img{width:70px;height:70px;border-radius:10px;object-fit:cover;}
-.deleteBtn{background:#ff3b5c;color:white;border:none;padding:8px 12px;border-radius:8px;cursor:pointer;font-size:13px;margin-top:5px;}
-.quantityBox{display:flex;align-items:center;gap:5px;margin-top:5px;}
-.qtyBtn{background:#eee;border:none;padding:5px 8px;border-radius:6px;cursor:pointer;font-weight:bold;}
-.bankBox{padding:20px;text-align:center;}
-.bankImg{width:90%;border-radius:12px;margin-top:15px;}
+/* الأقسام بالأيقونات */
+.categories{
+display:grid;
+grid-template-columns:repeat(4,1fr);
+gap:12px;
+padding:15px;
+background:white;
+}
+
+.categoryBox{
+text-align:center;
+cursor:pointer;
+}
+
+.categoryIcon{
+width:55px;
+height:55px;
+background:#f6f6f6;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:26px;
+margin:auto;
+transition:0.2s;
+}
+
+.categoryBox.active .categoryIcon{
+background:#25D366;
+color:white;
+}
+
+.categoryName{
+margin-top:6px;
+font-size:13px;
+}
+
+/* المنتجات */
+.products{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(140px,1fr));
+gap:10px;
+padding:10px;
+}
+
+.product{
+background:white;
+border-radius:10px;
+padding:8px;
+text-align:center;
+box-shadow:0 2px 6px rgba(0,0,0,0.06);
+position:relative;
+}
+
+.product img{
+width:100%;
+height:130px;
+object-fit:cover;
+border-radius:10px;
+}
+
+.product h4{
+font-size:14px;
+margin:6px 0;
+}
+
+.price{
+color:#ff3b5c;
+font-weight:bold;
+}
+
+.oldPrice{
+color:#999;
+text-decoration:line-through;
+font-size:12px;
+}
+
+.discountBadge{
+position:absolute;
+top:8px;
+left:8px;
+background:#25D366;
+color:white;
+font-size:12px;
+padding:2px 6px;
+border-radius:6px;
+}
+
+.freeShipping{
+color:#25D366;
+font-size:12px;
+font-weight:bold;
+}
+
+/* زر الإضافة والحذف */
+.addProductBtn,.deleteProductBtn{
+position:fixed;
+right:15px;
+width:50px;
+height:50px;
+border-radius:50%;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:28px;
+cursor:pointer;
+box-shadow:0 2px 6px rgba(0,0,0,0.2);
+}
+
+.addProductBtn{bottom:120px;background:#25D366;color:white;}
+.deleteProductBtn{bottom:180px;background:red;color:white;}
+
 </style>
 </head>
 <body>
+
 <header>Esraa creative 🤍</header>
 
-<div id="homePage">
-  <div class="searchBox">
-    <input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="searchProducts()">
-  </div>
-  <div class="products" id="products"></div>
+<div class="searchBox">
+<input type="text" id="searchInput" placeholder="ابحثي عن المنتج..." onkeyup="showProducts()">
 </div>
 
-<div class="bottomNav">
-  <div class="navItem" onclick="showHome()">
-    <span class="navIcon">🏬</span>المتجر
-  </div>
-  <div class="navItem" onclick="showCart()">
-    <span class="navIcon">👜</span>
-    <span class="cartCount" id="cartCount">0</span>
-    حقيبة التسوق
-  </div>
+<!-- الأقسام بالأيقونات -->
+<div class="categories">
+
+<div class="categoryBox active" onclick="filterCategory('all',this)">
+<div class="categoryIcon">🛍️</div>
+<div class="categoryName">كل المنتجات</div>
 </div>
 
+<div class="categoryBox" onclick="filterCategory('تريندات',this)">
+<div class="categoryIcon">🔥</div>
+<div class="categoryName">تريندات</div>
+</div>
+
+<div class="categoryBox" onclick="filterCategory('هاند ميد',this)">
+<div class="categoryIcon">🧶</div>
+<div class="categoryName">هاند ميد</div>
+</div>
+
+<div class="categoryBox" onclick="filterCategory('خمارات',this)">
+<div class="categoryIcon">🧕</div>
+<div class="categoryName">خمارات</div>
+</div>
+
+<div class="categoryBox" onclick="filterCategory('عبايات',this)">
+<div class="categoryIcon">👗</div>
+<div class="categoryName">عبايات</div>
+</div>
+
+<div class="categoryBox" onclick="filterCategory('الشنط',this)">
+<div class="categoryIcon">👜</div>
+<div class="categoryName">الشنط</div>
+</div>
+
+<div class="categoryBox" onclick="filterCategory('دريسات محجبات',this)">
+<div class="categoryIcon">👚</div>
+<div class="categoryName">دريسات محجبات</div>
+</div>
+
+</div>
+
+<div class="products" id="products"></div>
+
+<!-- زر الإضافة -->
 <div class="addProductBtn" onclick="promptAddProduct()">+</div>
 
-<div class="modal" id="productModal">
-  <div class="modalContent" id="modalContent">
-    <span class="closeModal" onclick="closeModal()">×</span>
-    <div id="modalBody"></div>
-  </div>
-</div>
+<!-- زر الحذف -->
+<div class="deleteProductBtn" onclick="promptDeleteProduct()">🗑️</div>
 
 <script>
+
 let products = JSON.parse(localStorage.getItem("products") || "[]");
-let cart = JSON.parse(localStorage.getItem("cart") || "[]");
+let selectedCategory="all";
 
-function updateCartCount(){
-  document.getElementById("cartCount").innerText = cart.length;
-}
-
-function calcDiscount(oldPrice, newPrice){
-  if(!oldPrice) return null;
-  let discount = Math.round((oldPrice - newPrice)/oldPrice * 100);
-  return discount > 0 ? discount : null;
-}
-
+/* عرض المنتجات */
 function showProducts(){
-  let box = "";
-  let searchValue = document.getElementById("searchInput").value.toLowerCase();
-  products.forEach((p,index)=>{
-    if(!p.name.toLowerCase().includes(searchValue)) return;
-    let discount = calcDiscount(Number(p.oldPrice), Number(p.price));
-    box += `<div class="product" onclick="viewProduct(${index})">
-      ${discount ? `<div class="discountBadge">خصم ${discount}%</div>` : ""}
-      <div class="cartIcon" onclick="event.stopPropagation(); addToCart(${index})">🛒</div>
-      <img src="${p.img1}">
-      <h4>${p.name}</h4>
-      ${p.oldPrice ? `<div class="oldPrice">${p.oldPrice} ريال</div>` : ""}
-      <div class="price">${p.price} ريال</div>
-    </div>`;
-  });
-  document.getElementById("products").innerHTML = box;
-  updateCartCount();
+
+let search=document.getElementById("searchInput").value.toLowerCase();
+let box="";
+
+products.forEach(p=>{
+
+if(selectedCategory!=="all" && p.category!==selectedCategory) return;
+if(!p.name.toLowerCase().includes(search)) return;
+
+let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):null;
+
+box+=`
+<div class="product">
+
+${discount?`<div class="discountBadge">خصم ${discount}%</div>`:""}
+
+<img src="${p.img1}">
+
+<h4>${p.name}</h4>
+
+${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
+
+<div class="price">${p.price} ريال</div>
+
+<div class="freeShipping">شحن مجاني 🚚</div>
+
+</div>
+`;
+});
+
+document.getElementById("products").innerHTML=box;
 }
+
 showProducts();
 
-function searchProducts(){showProducts();}
+/* الفلتر */
+function filterCategory(cat,el){
 
-function addToCart(index){
-  cart.push({...products[index], qty:1});
-  localStorage.setItem("cart", JSON.stringify(cart));
-  updateCartCount();
-  alert("تم إضافة المنتج إلى السلة 👜");
+selectedCategory=cat;
+
+document.querySelectorAll(".categoryBox").forEach(c=>c.classList.remove("active"));
+el.classList.add("active");
+
+showProducts();
 }
 
-function showCart(){
-  let html = "<h2 style='padding:20px'>حقيبة التسوق 👜</h2>";
-  let total = 0;
-  cart.forEach((p,i)=>{
-    total += Number(p.price) * p.qty;
-    html += `<div class="cartItem">
-      <img src="${p.img1}">
-      <div>
-        <h4>${p.name}</h4>
-        <div style="color:#ff3b5c;font-weight:bold">${p.price} ريال</div>
-        <div class="quantityBox">
-          <button class="qtyBtn" onclick="changeQty(${i},-1)">-</button>
-          <span>${p.qty}</span>
-          <button class="qtyBtn" onclick="changeQty(${i},1)">+</button>
-        </div>
-        <button class="deleteBtn" onclick="removeFromCart(${i})">حذف المنتج</button>
-      </div>
-    </div>`;
-  });
-  html += `<div class="totalBox"><span>عدد المنتجات: ${cart.length}</span><span>الإجمالي: ${total} ريال</span></div>`;
-  html += `<div class="inputBox">
-    <input type='text' id='custName' placeholder='اسم العميل'>
-    <input type='text' id='custPhone' placeholder='رقم الهاتف'>
-    <input type='text' id='custAddress' placeholder='العنوان'>
-  </div>`;
-  html += `<button class="orderBtn" onclick="goToBankTransfer(${total})">إتمام الطلب</button>`;
-  document.getElementById("homePage").innerHTML = html;
-  updateCartCount();
-}
-
-function changeQty(index,delta){
-  cart[index].qty += delta;
-  if(cart[index].qty<1) cart[index].qty=1;
-  localStorage.setItem("cart", JSON.stringify(cart));
-  showCart();
-}
-
-function removeFromCart(index){
-  cart.splice(index,1);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  showCart();
-}
-
-function goToBankTransfer(total){
-  let name = document.getElementById('custName').value || '---';
-  let phone = document.getElementById('custPhone').value || '---';
-  let address = document.getElementById('custAddress').value || '---';
-
-  let message = `طلب جديد:%0Aالاسم: ${name}%0Aرقم الهاتف: ${phone}%0Aالعنوان: ${address}%0A`;
-  cart.forEach(p=>{
-    message += `- ${p.name} (الكمية: ${p.qty}) - ${p.price} ريال%0A`;
-  });
-  message += `%0Aعدد المنتجات: ${cart.length}%0Aالإجمالي: ${total} ريال`;
-  localStorage.setItem("orderMessage", message);
-
-  let html = `<div class="bankBox">
-    <h2>صورة التحويل البنكي</h2>
-    <p>اعملي التحويل وابعتي صورة التحويل على واتساب</p>
-    <img class="bankImg" src="PUT-YOUR-BANK-IMAGE-HERE.png">
-    <button class="sendBtn" onclick="sendWhatsAppOrder()">إرسال الطلب على واتساب</button>
-  </div>`;
-  document.getElementById("homePage").innerHTML = html;
-}
-
-function sendWhatsAppOrder(){
-  let msg = localStorage.getItem("orderMessage");
-  window.open("https://wa.me/201091007426?text=" + msg);
-}
-
-function showHome(){location.reload();}
-
-// إضافة منتج مع باسورد
+/* إضافة منتج */
 function promptAddProduct(){
-  let pwd = prompt("أدخل كلمة المرور لإضافة المنتج:");
-  if(pwd !== "esraa2026"){ alert("كلمة المرور غير صحيحة"); return; }
-  let name = prompt("اسم المنتج:");
-  let price = prompt("سعر المنتج:");
-  let oldPrice = prompt("السعر القديم (اختياري):");
-  let img1 = prompt("رابط صورة المنتج:");
-  products.push({name, price, oldPrice, img1});
-  localStorage.setItem("products", JSON.stringify(products));
-  showProducts();
-  alert("تم إضافة المنتج بنجاح ✅");
+
+let pass=prompt("كلمة السر:");
+if(pass!=="esraa2026") return alert("كلمة السر غلط");
+
+let name=prompt("اسم المنتج:");
+let price=prompt("السعر:");
+let oldPrice=prompt("السعر قبل الخصم:");
+let category=prompt("القسم: تريندات / هاند ميد / خمارات / عبايات / الشنط / دريسات محجبات");
+let img1=prompt("رابط الصورة:");
+
+products.push({name,price,oldPrice,category,img1});
+localStorage.setItem("products",JSON.stringify(products));
+
+showProducts();
+alert("تمت الإضافة بنجاح ✨");
 }
 
-// عرض المنتج في مودال
-function viewProduct(index){
-  let p = products[index];
-  let discount = calcDiscount(Number(p.oldPrice), Number(p.price));
-  let html = `<img src="${p.img1}" style="width:100%;border-radius:10px;margin-bottom:10px">
-    <h3>${p.name}</h3>
-    ${p.oldPrice ? `<div class="oldPrice">${p.oldPrice} ريال</div>` : ""}
-    <div class="price">${p.price} ريال</div>
-    ${discount ? `<div class="discountBadge">خصم ${discount}%</div>` : ""}
-    <button class="sendBtn" onclick="addToCart(${index})">إضافة إلى السلة 🛒</button>`;
-  document.getElementById("modalBody").innerHTML = html;
-  document.getElementById("productModal").style.display = "flex";
+/* حذف منتج */
+function promptDeleteProduct(){
+
+let pass=prompt("كلمة السر:");
+if(pass!=="esraa2026") return alert("كلمة السر غلط");
+
+let list="اختاري رقم المنتج:\n";
+products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
+
+let choice=parseInt(prompt(list))-1;
+
+if(choice>=0){
+products.splice(choice,1);
+localStorage.setItem("products",JSON.stringify(products));
+showProducts();
+alert("تم الحذف ✅");
 }
 
-function closeModal(){
-  document.getElementById("productModal").style.display = "none";
 }
+
 </script>
 </body>
 </html>
-<script>
-// حذف منتج من المنتجات بكلمة سر
-function promptDeleteProduct(){
-  let pwd = prompt("أدخل كلمة المرور لحذف المنتج:");
-  if(pwd !== "esraa2026"){ 
-    alert("كلمة المرور غير صحيحة"); 
-    return; 
-  }
-  if(products.length === 0){
-    alert("لا يوجد منتجات للحذف");
-    return;
-  }
-  let list = "اختر رقم المنتج لحذفه:\n";
-  products.forEach((p,i)=>{
-    list += `${i+1} - ${p.name}\n`;
-  });
-  let choice = prompt(list);
-  let index = parseInt(choice)-1;
-  if(index >= 0 && index < products.length){
-    if(confirm(`هل أنت متأكد من حذف المنتج "${products[index].name}"؟`)){
-      products.splice(index,1);
-      localStorage.setItem("products", JSON.stringify(products));
-      showProducts();
-      alert("تم حذف المنتج بنجاح ✅");
-    }
-  } else {
-    alert("رقم غير صحيح");
-  }
-}
-    </script>
-// حذف منتج من المنتجات بكلمة سر
-function promptDeleteProduct(){
-  let pwd = prompt("أدخل كلمة المرور لحذف المنتج:");
-  if(pwd !== "esraa2026"){ 
-    alert("كلمة المرور غير صحيحة"); 
-    return; 
-  }
-  if(products.length === 0){
-    alert("لا يوجد منتجات للحذف");
-    return;
-  }
-  let list = "اختر رقم المنتج لحذفه:\n";
-  products.forEach((p,i)=>{
-    list += `${i+1} - ${p.name}\n`;
-  });
-  let choice = prompt(list);
-  let index = parseInt(choice)-1;
-  if(index >= 0 && index < products.length){
-    if(confirm(`هل أنت متأكد من حذف المنتج "${products[index].name}"؟`)){
-      products.splice(index,1);
-      localStorage.setItem("products", JSON.stringify(products));
-      showProducts();
-      alert("تم حذف المنتج بنجاح ✅");
-    }
-  } else {
-    alert("رقم غير صحيح");
-  }
-}
-    <!-- أضف هذا تحت زر + لإضافة المنتج مباشرة في الـ HTML -->
-<div class="addProductBtn" style="bottom:180px; background:red;" onclick="promptDeleteProduct()">🗑</div>// حذف منتج من المنتجات بكلمة سر
-function promptDeleteProduct(){
-  let pwd = prompt("أدخل كلمة المرور لحذف المنتج:");
-  if(pwd !== "esraa2026"){ 
-    alert("كلمة المرور غير صحيحة"); 
-    return; 
-  }
-  if(products.length === 0){
-    alert("لا يوجد منتجات للحذف");
-    return;
-  }
-  let list = "اختر رقم المنتج لحذفه:\n";
-  products.forEach((p,i)=>{
-    list += `${i+1} - ${p.name}\n`;
-  });
-  let choice = prompt(list);
-  let index = parseInt(choice)-1;
-  if(index >= 0 && index < products.length){
-    if(confirm(`هل أنت متأكد من حذف المنتج "${products[index].name}"؟`)){
-      products.splice(index,1);
-      localStorage.setItem("products", JSON.stringify(products));
-      showProducts();
-      alert("تم حذف المنتج بنجاح ✅");
-    }
-  } else {
-    alert("رقم غير صحيح");
-  }
-}
