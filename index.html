@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Esraa creative</title>
+
 <style>
 body{margin:0;font-family:Arial;background:#fff;padding-bottom:120px;}
 header{background:white;padding:15px;text-align:center;font-size:20px;font-weight:bold;border-bottom:1px solid #eee;}
@@ -29,180 +30,185 @@ display:flex;align-items:center;justify-content:center;color:white;cursor:pointe
 .deleteBtn{bottom:150px;background:red;}
 
 .productPage{display:none;padding:15px;}
-.productPage img{width:100%;border-radius:12px;cursor:pointer;}
+.productPage img{width:100%;border-radius:12px;}
+
 .qtyBox{display:flex;gap:10px;margin-top:10px;}
 .qtyBox button{width:35px;height:35px;background:black;color:white;border:none;border-radius:8px;}
+
 .orderBtn{margin-top:15px;width:100%;background:#25D366;color:white;padding:12px;border:none;border-radius:10px;}
 </style>
 </head>
+
 <body>
 
 <header>Esraa creative 💖</header>
 
 <div class="categories">
-  <div class="categoryBox active" onclick="filterCategory('all',this)">الكل</div>
-  <div class="categoryBox" onclick="filterCategory('تريندات',this)">تريندات</div>
-  <div class="categoryBox" onclick="filterCategory('هاند ميد',this)">هاند ميد</div>
-  <div class="categoryBox" onclick="filterCategory('عبايات',this)">عبايات</div>
-  <div class="categoryBox" onclick="filterCategory('خمارات',this)">خمارات</div>
-  <div class="categoryBox" onclick="filterCategory('الشنط',this)">الشنط</div>
-  <div class="categoryBox" onclick="filterCategory('دريسات',this)">دريسات</div>
+<div class="categoryBox active" onclick="filterCategory('all',this)">الكل</div>
+<div class="categoryBox" onclick="filterCategory('تريندات',this)">تريندات</div>
+<div class="categoryBox" onclick="filterCategory('هاند ميد',this)">هاند ميد</div>
+<div class="categoryBox" onclick="filterCategory('عبايات',this)">عبايات</div>
+<div class="categoryBox" onclick="filterCategory('خمارات',this)">خمارات</div>
+<div class="categoryBox" onclick="filterCategory('الشنط',this)">الشنط</div>
+<div class="categoryBox" onclick="filterCategory('دريسات',this)">دريسات</div>
+<div class="categoryBox" onclick="filterCategory('اسدالات',this)">اسدالات</div>
 </div>
 
 <div class="products" id="products"></div>
 
 <!-- صفحة المنتج -->
 <div class="productPage" id="productPage">
-  <img id="pImg">
-  <h3 id="pName"></h3>
-  <p id="pDesc"></p>
-  <div id="pPrice"></div>
 
-  <div class="qtyBox">
-    <button onclick="minusQty()">-</button>
-    <div id="qty">1</div>
-    <button onclick="plusQty()">+</button>
-  </div>
+<img id="pImg">
+<h3 id="pName"></h3>
+<p id="pDesc"></p>
+<div id="pPrice"></div>
 
-  <!-- رقم الحساب -->
-  <div style="background:#f5f5f5;padding:10px;border-radius:10px;margin-top:15px;">
-    رقم الحساب:<br><b>503068436001</b>
-  </div>
+<div class="qtyBox">
+<button onclick="minusQty()">-</button>
+<div id="qty">1</div>
+<button onclick="plusQty()">+</button>
+</div>
 
-  <!-- رفع صورة التحويل البنكي -->
-  <label for="bankImage" style="font-weight:bold; margin-top:10px; display:block;">صورة التحويل البنكي</label>
-  <input type="file" id="bankImage" style="margin-top:5px;">
-  <img id="previewImage" style="width:100%;display:none;margin-top:10px;">
+<div style="background:#f5f5f5;padding:10px;border-radius:10px;margin-top:15px;">
+رقم الحساب:<br><b>503068436001</b>
+</div>
 
-  <input id="customerName" placeholder="اسم العميل" style="width:100%;margin-top:10px;padding:10px;">
-  <input id="customerPhone" placeholder="رقم الفون" style="width:100%;margin-top:10px;padding:10px;">
-  <input id="customerAddress" placeholder="العنوان" style="width:100%;margin-top:10px;padding:10px;">
+<input id="customerName" placeholder="اسم العميل" style="width:100%;margin-top:10px;padding:10px;">
+<input id="customerPhone" placeholder="رقم الفون" style="width:100%;margin-top:10px;padding:10px;">
+<input id="customerAddress" placeholder="العنوان" style="width:100%;margin-top:10px;padding:10px;">
 
-  <button class="orderBtn" onclick="sendToWhatsApp()">إرسال الطلب</button>
+<button class="orderBtn" onclick="sendToWhatsApp()">إرسال الطلب</button>
+
 </div>
 
 <div class="addBtn" onclick="addProduct()">+</div>
 <div class="deleteBtn" onclick="deleteProduct()">🗑️</div>
 
 <script>
-let products = JSON.parse(localStorage.getItem("products")||"[]");
-let selectedCategory = "all";
-let selectedProduct = {};
-let quantity = 1;
+
+let products=JSON.parse(localStorage.getItem("products")||"[]");
+let selectedCategory="all";
+let selectedProduct={};
+let quantity=1;
 
 /* عرض المنتجات */
 function showProducts(){
-  let box = "";
-  products.forEach(p=>{
-    if(selectedCategory!=="all" && p.category!==selectedCategory) return;
-    let discount = p.oldPrice ? Math.round((p.oldPrice - p.price)/p.oldPrice*100) : null;
-    box += `
-    <div class="product" onclick="openProduct('${p.name}','${p.price}','${p.oldPrice}','${p.img}','${p.category}','${p.description||''}')">
-      ${discount?`<div class="discount">${discount}%</div>`:""}
-      <img src="${p.img}">
-      <h4>${p.name}</h4>
-      <p>${p.description||''}</p>
-      <div class="price">${p.price} ريال</div>
-      ${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
-    </div>`;
-  });
-  document.getElementById("products").innerHTML = box;
+let box="";
+products.forEach(p=>{
+if(selectedCategory!=="all" && p.category!==selectedCategory) return;
+
+let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):null;
+
+box+=`
+<div class="product" onclick="openProduct('${p.name}','${p.price}','${p.oldPrice}','${p.img}','${p.description||''}')">
+${discount?`<div class="discount">${discount}%</div>`:""}
+<img src="${p.img}">
+<h4>${p.name}</h4>
+<p>${p.description||''}</p>
+<div class="price">${p.price} ريال</div>
+${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
+</div>`;
+});
+document.getElementById("products").innerHTML=box;
 }
 showProducts();
 
-/* فلترة الأقسام */
+/* فلتر */
 function filterCategory(cat,el){
-  selectedCategory = cat;
-  document.querySelectorAll(".categoryBox").forEach(c=>c.classList.remove("active"));
-  el.classList.add("active");
-  showProducts();
+selectedCategory=cat;
+document.querySelectorAll(".categoryBox").forEach(c=>c.classList.remove("active"));
+el.classList.add("active");
+showProducts();
 }
 
 /* إضافة منتج */
 function addProduct(){
-  let pass = prompt("كلمة السر:");
-  if(pass!=="esraa2026") return alert("كلمة السر خطأ");
+let pass=prompt("كلمة السر:");
+if(pass!=="esraa2026") return;
 
-  let name = prompt("اسم المنتج:");
-  let price = prompt("السعر:");
-  let oldPrice = prompt("السعر قبل الخصم:");
-  let category = prompt("القسم: تريندات / هاند ميد / عبايات / خمارات / الشنط / دريسات");
-  let img = prompt("رابط الصورة:");
-  let description = prompt("وصف المنتج:");
+let name=prompt("اسم المنتج:");
+let price=prompt("السعر:");
+let oldPrice=prompt("السعر قبل الخصم:");
+let category=prompt("القسم: تريندات / هاند ميد / عبايات / خمارات / الشنط / دريسات / اسدالات");
+let img=prompt("رابط الصورة:");
+let description=prompt("وصف المنتج:");
 
-  if(!name||!price||!img||!category) return alert("اكتبي كل البيانات");
-
-  products.push({name,price,oldPrice,category,img,description});
-  localStorage.setItem("products",JSON.stringify(products));
-  showProducts();
+products.push({name,price,oldPrice,category,img,description});
+localStorage.setItem("products",JSON.stringify(products));
+showProducts();
 }
 
-/* حذف منتج */
+/* حذف */
 function deleteProduct(){
-  let pass = prompt("كلمة السر:");
-  if(pass!=="esraa2026") return alert("كلمة السر خطأ");
+let pass=prompt("كلمة السر:");
+if(pass!=="esraa2026") return;
 
-  let list = "";
-  products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
-  let choice = parseInt(prompt(list)) - 1;
-  if(choice>=0){ products.splice(choice,1); localStorage.setItem("products",JSON.stringify(products)); showProducts();}
+let list="";
+products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
+let choice=parseInt(prompt(list))-1;
+
+if(choice>=0){
+products.splice(choice,1);
+localStorage.setItem("products",JSON.stringify(products));
+showProducts();
+}
 }
 
-/* فتح صفحة المنتج */
-function openProduct(name,price,oldPrice,img,category,desc){
-  selectedProduct = {name,price,oldPrice,img,category,desc};
-  quantity = 1;
-  document.getElementById("pImg").src = img;
-  document.getElementById("pName").innerText = name;
-  document.getElementById("pDesc").innerText = desc;
-  document.getElementById("pPrice").innerText = price+" ريال";
-  document.getElementById("qty").innerText = quantity;
-  document.getElementById("productPage").style.display="block";
-  window.scrollTo(0,0);
+/* فتح المنتج */
+function openProduct(name,price,oldPrice,img,desc){
+selectedProduct={name,price,oldPrice,img,desc};
+quantity=1;
+
+document.getElementById("pImg").src=img;
+document.getElementById("pName").innerText=name;
+document.getElementById("pDesc").innerText=desc||'';
+document.getElementById("pPrice").innerText=price+" ريال";
+
+document.getElementById("productPage").style.display="block";
+window.scrollTo(0,0);
 }
 
 /* كمية */
-function plusQty(){ quantity++; document.getElementById("qty").innerText=quantity; }
-function minusQty(){ if(quantity>1){quantity--; document.getElementById("qty").innerText=quantity;} }
+function plusQty(){quantity++;document.getElementById("qty").innerText=quantity;}
+function minusQty(){if(quantity>1){quantity--;document.getElementById("qty").innerText=quantity;}}
 
-/* معاينة صورة التحويل */
-document.getElementById("bankImage").onchange=function(){
-  let file=this.files[0];
-  if(file){
-    let reader=new FileReader();
-    reader.onload=e=>{
-      let img=document.getElementById("previewImage");
-      img.src=e.target.result;
-      img.style.display="block";
-    }
-    reader.readAsDataURL(file);
-  }
-}
-
-/* إرسال على واتساب مع رابط مباشر للصورة */
+/* واتساب */
 function sendToWhatsApp(){
-  let name = document.getElementById("customerName").value;
-  let phone = document.getElementById("customerPhone").value;
-  let address = document.getElementById("customerAddress").value;
-  let imageFile = document.getElementById("bankImage").files[0];
-  if(!name||!phone||!address) return alert("اكتبي كل البيانات");
-  if(!imageFile) return alert("ضيفي صورة التحويل");
 
-  let imageURL = URL.createObjectURL(imageFile); // رابط مباشر للصورة
+let name=document.getElementById("customerName").value;
+let phone=document.getElementById("customerPhone").value;
+let address=document.getElementById("customerAddress").value;
 
-  let msg =
-  "طلب جديد 💖\n\n"+
-  "الاسم: "+name+"\n"+
-  "الفون: "+phone+"\n"+
-  "العنوان: "+address+"\n\n"+
-  "المنتج: "+selectedProduct.name+"\n"+
-  "السعر: "+selectedProduct.price+"\n"+
-  "الكمية: "+quantity+"\n\n"+
-  "تم التحويل على رقم الحساب 503068436001\n"+
-  "رابط الصورة: "+imageURL;
-
-  window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
+if(!name||!phone||!address){
+alert("اكتبي كل البيانات");
+return;
 }
+
+let msg=
+"طلب جديد من متجر Esraa creative 💖\n\n"+
+
+"👤 الاسم: "+name+"\n"+
+"📞 رقم الفون: "+phone+"\n"+
+"📍 العنوان: "+address+"\n\n"+
+
+"🛍 المنتج: "+selectedProduct.name+"\n"+
+"💰 السعر: "+selectedProduct.price+" ريال\n"+
+"🔢 الكمية: "+quantity+"\n\n"+
+
+"💸 الحالة: تم التحويل\n\n"+
+
+"⚠️ برجاء إرسال صورة التحويل في رسالة منفصلة";
+
+window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
+
+setTimeout(()=>{
+alert("📩 ابعتي صورة التحويل في رسالة لوحدها علشان تأكيد الطلب 💖");
+},500);
+
+}
+
 </script>
+
 </body>
 </html>
