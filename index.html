@@ -162,7 +162,7 @@ function sendToWhatsApp(){
   window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
 }
 
-/* إضافة منتج */
+/* إضافة منتج مع اختيار القسم بالرقم */
 function addProduct(){
   let pass=prompt("كلمة السر:");
   if(pass!=="esraa2026") return alert("كلمة السر خاطئة");
@@ -170,7 +170,8 @@ function addProduct(){
   let description=prompt("وصف المنتج:");
   let price=prompt("السعر:");
   let oldPrice=prompt("السعر قبل الخصم:");
-  let category=prompt("القسم: تريندات / هاند ميد / عبايات / خمارات / الشنط / دريسات / فوانيس");
+  let catNum=prompt("اختر رقم القسم:\n1- تريندات\n2- هاند ميد\n3- عبايات\n4- خمارات\n5- الشنط\n6- دريسات\n7- فوانيس");
+  let category = ["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
   let img=prompt("رابط الصورة:");
   if(!name||!price||!category||!img) return alert("اكمل كل البيانات");
   products.push({name,description,price,oldPrice,category,img});
@@ -188,7 +189,7 @@ function deleteProduct(){
   if(choice>=0){products.splice(choice,1);localStorage.setItem("products",JSON.stringify(products)); showProducts();}
 }
 
-/* تعديل منتج */
+/* تعديل منتج مع اختيار القسم بالرقم */
 function editProduct(){
   let pass=prompt("كلمة السر:");
   if(pass!=="esraa2026") return alert("كلمة السر خاطئة");
@@ -201,14 +202,14 @@ function editProduct(){
     let description=prompt("الوصف:",p.description);
     let price=prompt("السعر:",p.price);
     let oldPrice=prompt("السعر قبل الخصم:",p.oldPrice);
-    let category=prompt("القسم:",p.category);
+    let catNum=prompt("اختر رقم القسم:\n1- تريندات\n2- هاند ميد\n3- عبايات\n4- خمارات\n5- الشنط\n6- دريسات\n7- فوانيس");
+    let category = ["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
     let img=prompt("رابط الصورة:",p.img);
     products[choice]={name,description,price,oldPrice,category,img};
     localStorage.setItem("products",JSON.stringify(products));
     showProducts();
   }
 }
-
 </script>
 
 </body>
