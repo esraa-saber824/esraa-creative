@@ -6,28 +6,18 @@
 <title>Esraa creative</title>
 
 <style>
-body{margin:0;font-family:Arial;background:#fff;padding-bottom:120px;}
+body{margin:0;font-family:Arial;background:#fff;}
 header{background:white;padding:15px;text-align:center;font-size:20px;font-weight:bold;border-bottom:1px solid #eee;}
 
 .categories{display:flex;overflow-x:auto;gap:10px;padding:10px;background:#fafafa;}
-.categoryBox{padding:8px 14px;background:white;border:1px solid #eee;border-radius:20px;cursor:pointer;white-space:nowrap;}
+.categoryBox{padding:8px 14px;background:white;border:1px solid #eee;border-radius:20px;cursor:pointer;}
 .categoryBox.active{background:black;color:white;}
 
 .products{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;padding:12px;}
-.product{background:white;border-radius:12px;padding:10px;box-shadow:0 0 8px rgba(0,0,0,0.05);cursor:pointer;position:relative;}
+.product{background:white;border-radius:12px;padding:10px;box-shadow:0 0 8px rgba(0,0,0,0.05);cursor:pointer;}
 .product img{width:100%;border-radius:10px;}
 .product h4{margin:8px 0 5px;font-size:15px;}
-.product p{font-size:13px;color:#555;margin:4px 0;}
-.discount{position:absolute;top:10px;right:10px;background:red;color:white;padding:4px 8px;font-size:12px;border-radius:6px;}
-.oldPrice{text-decoration:line-through;color:#888;font-size:13px;}
-.price{font-weight:bold;}
-
-.addBtn,.deleteBtn{
-position:fixed;right:15px;width:45px;height:45px;border-radius:50%;
-display:flex;align-items:center;justify-content:center;color:white;cursor:pointer;
-}
-.addBtn{bottom:90px;background:black;}
-.deleteBtn{bottom:150px;background:red;}
+.product p{font-size:13px;color:#555;}
 
 .productPage{display:none;padding:15px;}
 .productPage img{width:100%;border-radius:12px;}
@@ -36,6 +26,11 @@ display:flex;align-items:center;justify-content:center;color:white;cursor:pointe
 .qtyBox button{width:35px;height:35px;background:black;color:white;border:none;border-radius:8px;}
 
 .orderBtn{margin-top:15px;width:100%;background:#25D366;color:white;padding:12px;border:none;border-radius:10px;}
+
+.backBtn{margin-bottom:10px;background:#eee;padding:8px 12px;border:none;border-radius:8px;cursor:pointer;}
+
+.oldPrice{color:#888;text-decoration:line-through;}
+.discount{color:red;font-size:14px;}
 </style>
 </head>
 
@@ -43,35 +38,41 @@ display:flex;align-items:center;justify-content:center;color:white;cursor:pointe
 
 <header>Esraa creative 💖</header>
 
+<!-- الصفحة الرئيسية -->
+<div id="mainPage">
+
 <div class="categories">
 <div class="categoryBox active" onclick="filterCategory('all',this)">الكل</div>
 <div class="categoryBox" onclick="filterCategory('تريندات',this)">تريندات</div>
 <div class="categoryBox" onclick="filterCategory('هاند ميد',this)">هاند ميد</div>
 <div class="categoryBox" onclick="filterCategory('عبايات',this)">عبايات</div>
 <div class="categoryBox" onclick="filterCategory('خمارات',this)">خمارات</div>
-<div class="categoryBox" onclick="filterCategory('الشنط',this)">الشنط</div>
+<div class="categoryBox" onclick="filterCategory('شنط',this)">شنط</div>
 <div class="categoryBox" onclick="filterCategory('دريسات',this)">دريسات</div>
 <div class="categoryBox" onclick="filterCategory('اسدالات',this)">اسدالات</div>
 </div>
 
 <div class="products" id="products"></div>
 
+</div>
+
 <!-- صفحة المنتج -->
 <div class="productPage" id="productPage">
 
+<button class="backBtn" onclick="backToHome()">⬅ رجوع</button>
+
 <img id="pImg">
-<h3 id="pName"></h3>
+<h2 id="pName"></h2>
 <p id="pDesc"></p>
+
 <div id="pPrice"></div>
+<div id="pOldPrice" class="oldPrice"></div>
+<div id="pDiscount" class="discount"></div>
 
 <div class="qtyBox">
 <button onclick="minusQty()">-</button>
 <div id="qty">1</div>
 <button onclick="plusQty()">+</button>
-</div>
-
-<div style="background:#f5f5f5;padding:10px;border-radius:10px;margin-top:15px;">
-رقم الحساب:<br><b>503068436001</b>
 </div>
 
 <input id="customerName" placeholder="اسم العميل" style="width:100%;margin-top:10px;padding:10px;">
@@ -81,9 +82,6 @@ display:flex;align-items:center;justify-content:center;color:white;cursor:pointe
 <button class="orderBtn" onclick="sendToWhatsApp()">إرسال الطلب</button>
 
 </div>
-
-<div class="addBtn" onclick="addProduct()">+</div>
-<div class="deleteBtn" onclick="deleteProduct()">🗑️</div>
 
 <script>
 
@@ -95,19 +93,18 @@ let quantity=1;
 /* عرض المنتجات */
 function showProducts(){
 let box="";
-products.forEach(p=>{
+products.forEach((p,i)=>{
 if(selectedCategory!=="all" && p.category!==selectedCategory) return;
 
 let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):null;
 
 box+=`
-<div class="product" onclick="openProduct('${p.name}','${p.price}','${p.oldPrice}','${p.img}','${p.description||''}')">
+<div class="product" onclick="openProduct(${i})">
 ${discount?`<div class="discount">${discount}%</div>`:""}
 <img src="${p.img}">
 <h4>${p.name}</h4>
-<p>${p.description||''}</p>
-<div class="price">${p.price} ريال</div>
-${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
+<p>${p.description||""}</p>
+<div><b>${p.price} ريال</b></div>
 </div>`;
 });
 document.getElementById("products").innerHTML=box;
@@ -122,54 +119,41 @@ el.classList.add("active");
 showProducts();
 }
 
-/* إضافة منتج */
-function addProduct(){
-let pass=prompt("كلمة السر:");
-if(pass!=="esraa2026") return;
-
-let name=prompt("اسم المنتج:");
-let price=prompt("السعر:");
-let oldPrice=prompt("السعر قبل الخصم:");
-let category=prompt("القسم: تريندات / هاند ميد / عبايات / خمارات / الشنط / دريسات / اسدالات");
-let img=prompt("رابط الصورة:");
-let description=prompt("وصف المنتج:");
-
-products.push({name,price,oldPrice,category,img,description});
-localStorage.setItem("products",JSON.stringify(products));
-showProducts();
-}
-
-/* حذف */
-function deleteProduct(){
-let pass=prompt("كلمة السر:");
-if(pass!=="esraa2026") return;
-
-let list="";
-products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
-let choice=parseInt(prompt(list))-1;
-
-if(choice>=0){
-products.splice(choice,1);
-localStorage.setItem("products",JSON.stringify(products));
-showProducts();
-}
-}
-
 /* فتح المنتج */
-function openProduct(name,price,oldPrice,img,desc){
-selectedProduct={name,price,oldPrice,img,desc};
+function openProduct(i){
+selectedProduct=products[i];
 quantity=1;
 
-document.getElementById("pImg").src=img;
-document.getElementById("pName").innerText=name;
-document.getElementById("pDesc").innerText=desc||'';
-document.getElementById("pPrice").innerText=price+" ريال";
-
+document.getElementById("mainPage").style.display="none";
 document.getElementById("productPage").style.display="block";
-window.scrollTo(0,0);
+
+document.getElementById("pImg").src=selectedProduct.img;
+document.getElementById("pName").innerText=selectedProduct.name;
+document.getElementById("pDesc").innerText=selectedProduct.description||"";
+
+document.getElementById("pPrice").innerText=selectedProduct.price+" ريال";
+
+/* السعر القديم + الخصم */
+if(selectedProduct.oldPrice){
+document.getElementById("pOldPrice").innerText=selectedProduct.oldPrice+" ريال";
+
+let discount=Math.round((selectedProduct.oldPrice-selectedProduct.price)/selectedProduct.oldPrice*100);
+document.getElementById("pDiscount").innerText="خصم "+discount+"%";
+}else{
+document.getElementById("pOldPrice").innerText="";
+document.getElementById("pDiscount").innerText="";
 }
 
-/* كمية */
+document.getElementById("qty").innerText=quantity;
+}
+
+/* رجوع */
+function backToHome(){
+document.getElementById("productPage").style.display="none";
+document.getElementById("mainPage").style.display="block";
+}
+
+/* الكمية */
 function plusQty(){quantity++;document.getElementById("qty").innerText=quantity;}
 function minusQty(){if(quantity>1){quantity--;document.getElementById("qty").innerText=quantity;}}
 
@@ -194,17 +178,13 @@ let msg=
 
 "🛍 المنتج: "+selectedProduct.name+"\n"+
 "💰 السعر: "+selectedProduct.price+" ريال\n"+
-"🔢 الكمية: "+quantity+"\n\n"+
+"📦 الكمية: "+quantity+"\n\n"+
 
-"💸 الحالة: تم التحويل\n\n"+
+"💳 رقم الحساب:\n503068436001\n\n"+
 
-"⚠️ برجاء إرسال صورة التحويل في رسالة منفصلة";
+"⚠️ برجاء إرسال صورة التحويل على واتساب بعد الدفع 👇";
 
 window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
-
-setTimeout(()=>{
-alert("📩 ابعتي صورة التحويل في رسالة لوحدها علشان تأكيد الطلب 💖");
-},500);
 
 }
 
