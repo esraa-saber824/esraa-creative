@@ -9,12 +9,10 @@
 body{margin:0;font-family:Arial;background:#fff;padding-bottom:180px;}
 header{background:white;padding:16px;text-align:center;font-size:20px;font-weight:bold;border-bottom:1px solid #eee;}
 
-/* الأقسام */
 .categories{display:flex;overflow-x:auto;gap:10px;padding:10px;background:#fafafa;}
 .categoryBox{padding:8px 14px;background:white;border:1px solid #eee;border-radius:20px;cursor:pointer;white-space:nowrap;}
 .categoryBox.active{background:black;color:white;}
 
-/* المنتجات */
 .products{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;padding:12px;}
 .product{background:white;border-radius:12px;padding:10px;box-shadow:0 0 8px rgba(0,0,0,0.05);cursor:pointer;position:relative;}
 .product img{width:100%;border-radius:10px;}
@@ -24,7 +22,6 @@ header{background:white;padding:16px;text-align:center;font-size:20px;font-weigh
 .oldPrice{text-decoration:line-through;color:#888;font-size:13px;}
 .discount{position:absolute;top:10px;right:10px;background:red;color:white;padding:4px 8px;font-size:12px;border-radius:6px;}
 
-/* أزرار إضافة/حذف/تعديل */
 .addBtn,.deleteBtn,.editBtn{
 position:fixed;right:15px;width:45px;height:45px;border-radius:50%;
 display:flex;align-items:center;justify-content:center;color:white;cursor:pointer;z-index:999;
@@ -33,7 +30,6 @@ display:flex;align-items:center;justify-content:center;color:white;cursor:pointe
 .deleteBtn{bottom:150px;background:red;}
 .editBtn{bottom:210px;background:orange;}
 
-/* صفحة المنتج */
 .productPage{display:none;padding:15px;}
 .productPage img{width:100%;border-radius:12px;}
 .productPage h3{margin:10px 0 5px;}
@@ -48,6 +44,9 @@ input{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid
 
 <header>Esraa creative 💖</header>
 
+<!-- الصفحة الرئيسية -->
+<div id="mainPage">
+
 <div class="categories">
   <div class="categoryBox active" onclick="filterCategory('all',this)">الكل</div>
   <div class="categoryBox" onclick="filterCategory('تريندات',this)">تريندات</div>
@@ -60,6 +59,8 @@ input{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid
 </div>
 
 <div class="products" id="products"></div>
+
+</div>
 
 <!-- صفحة المنتج -->
 <div class="productPage" id="productPage">
@@ -106,15 +107,15 @@ function showProducts(){
       <img src="${p.img}">
       <h4>${p.name}</h4>
       <p>${p.description||''}</p>
-      <div class="price">${p.price} ريال</div>
-      ${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ريال</div>`:""}
+      <div class="price">${p.price} ر.س</div>
+      ${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ر.س</div>`:""}
     </div>`;
   });
   document.getElementById("products").innerHTML = box;
 }
 showProducts();
 
-/* فلترة الأقسام */
+/* فلترة */
 function filterCategory(cat,el){
   selectedCategory=cat;
   document.querySelectorAll(".categoryBox").forEach(c=>c.classList.remove("active"));
@@ -126,26 +127,31 @@ function filterCategory(cat,el){
 function openProduct(i){
   selectedProduct = products[i];
   quantity=1;
+
+  document.getElementById("mainPage").style.display="none";
   document.getElementById("productPage").style.display="block";
+
   window.scrollTo(0,0);
+
   document.getElementById("pImg").src = selectedProduct.img;
   document.getElementById("pName").innerText = selectedProduct.name;
   document.getElementById("pDesc").innerText = selectedProduct.description || "لا يوجد وصف متاح";
-  document.getElementById("pPrice").innerText = selectedProduct.price + " ريال";
-  document.getElementById("pOldPrice").innerText = selectedProduct.oldPrice ? selectedProduct.oldPrice + " ريال" : '';
+  document.getElementById("pPrice").innerText = selectedProduct.price + " ر.س";
+  document.getElementById("pOldPrice").innerText = selectedProduct.oldPrice ? selectedProduct.oldPrice + " ر.س" : '';
   document.getElementById("qty").innerText = quantity;
 }
 
-/* العودة */
+/* رجوع */
 function closeProductPage(){
   document.getElementById("productPage").style.display="none";
+  document.getElementById("mainPage").style.display="block";
 }
 
-/* الكمية */
+/* كمية */
 function plusQty(){quantity++; document.getElementById("qty").innerText = quantity;}
 function minusQty(){if(quantity>1){quantity--; document.getElementById("qty").innerText = quantity;}}
 
-/* إرسال طلب على واتساب */
+/* واتساب */
 function sendToWhatsApp(){
   let name=document.getElementById("customerName").value;
   let phone=document.getElementById("customerPhone").value;
@@ -156,56 +162,54 @@ function sendToWhatsApp(){
 الفون: ${phone}
 العنوان: ${address}
 المنتج: ${selectedProduct.name}
-السعر: ${selectedProduct.price} ريال
+السعر: ${selectedProduct.price} ر.س
 الكمية: ${quantity}
 📌 برجاء إرسال صورة التحويل على رقم الحساب 503068436001`;
   window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
 }
 
-/* إضافة منتج مع اختيار القسم بالرقم */
+/* إضافة */
 function addProduct(){
   let pass=prompt("كلمة السر:");
-  if(pass!=="esraa2026") return alert("كلمة السر خاطئة");
+  if(pass!=="esraa2026") return;
   let name=prompt("اسم المنتج:");
   let description=prompt("وصف المنتج:");
   let price=prompt("السعر:");
   let oldPrice=prompt("السعر قبل الخصم:");
-  let catNum=prompt("اختر رقم القسم:\n1- تريندات\n2- هاند ميد\n3- عبايات\n4- خمارات\n5- الشنط\n6- دريسات\n7- فوانيس");
+  let catNum=prompt("1 تريندات\n2 هاند ميد\n3 عبايات\n4 خمارات\n5 الشنط\n6 دريسات\n7 فوانيس");
   let category = ["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
   let img=prompt("رابط الصورة:");
-  if(!name||!price||!category||!img) return alert("اكمل كل البيانات");
   products.push({name,description,price,oldPrice,category,img});
   localStorage.setItem("products",JSON.stringify(products));
   showProducts();
 }
 
-/* حذف منتج */
+/* حذف */
 function deleteProduct(){
   let pass=prompt("كلمة السر:");
-  if(pass!=="esraa2026") return alert("كلمة السر خاطئة");
-  let list="اختر رقم المنتج للحذف:\n";
+  if(pass!=="esraa2026") return;
+  let list="";
   products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
   let choice=parseInt(prompt(list))-1;
   if(choice>=0){products.splice(choice,1);localStorage.setItem("products",JSON.stringify(products)); showProducts();}
 }
 
-/* تعديل منتج مع اختيار القسم بالرقم */
+/* تعديل */
 function editProduct(){
   let pass=prompt("كلمة السر:");
-  if(pass!=="esraa2026") return alert("كلمة السر خاطئة");
-  let list="اختر رقم المنتج للتعديل:\n";
+  if(pass!=="esraa2026") return;
+  let list="";
   products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
-  let choice=parseInt(prompt(list))-1;
-  if(choice>=0){
-    let p=products[choice];
-    let name=prompt("الاسم:",p.name);
-    let description=prompt("الوصف:",p.description);
-    let price=prompt("السعر:",p.price);
-    let oldPrice=prompt("السعر قبل الخصم:",p.oldPrice);
-    let catNum=prompt("اختر رقم القسم:\n1- تريندات\n2- هاند ميد\n3- عبايات\n4- خمارات\n5- الشنط\n6- دريسات\n7- فوانيس");
-    let category = ["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
-    let img=prompt("رابط الصورة:",p.img);
-    products[choice]={name,description,price,oldPrice,category,img};
+  let i=parseInt(prompt(list))-1;
+  if(i>=0){
+    let p=products[i];
+    p.name=prompt("الاسم",p.name);
+    p.description=prompt("الوصف",p.description);
+    p.price=prompt("السعر",p.price);
+    p.oldPrice=prompt("قبل الخصم",p.oldPrice);
+    let catNum=prompt("1 تريندات\n2 هاند ميد\n3 عبايات\n4 خمارات\n5 الشنط\n6 دريسات\n7 فوانيس");
+    p.category=["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
+    p.img=prompt("الصورة",p.img);
     localStorage.setItem("products",JSON.stringify(products));
     showProducts();
   }
