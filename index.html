@@ -158,33 +158,6 @@ function sendToWhatsApp(){
     window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
     backToMain();
 }
-
-/* إضافة منتج جديد */
-function addProduct(){
-    let pass=prompt("كلمة السر:");
-    if(pass!=="esraa2026") return alert("كلمة السر خطأ");
-    let name=prompt("اسم المنتج:");
-    let price=prompt("السعر:");
-    let oldPrice=prompt("السعر قبل الخصم:");
-    let description=prompt("وصف المنتج:");
-    let category=prompt("القسم: تريندات / هاند ميد / عبايات / خمارات / الشنط / دريسات / فوانيس / اسدالات");
-    let img=prompt("رابط الصورة:");
-    if(!name||!price||!category||!img) return alert("من فضلك املئي كل البيانات");
-
-    products.push({name,price,oldPrice,description,category,img});
-    localStorage.setItem("products",JSON.stringify(products));
-    showProducts();
-}
-
-/* حذف منتج */
-function deleteProduct(){
-    let pass=prompt("كلمة السر:");
-    if(pass!=="esraa2026") return alert("كلمة السر خطأ");
-    let list="اختاري رقم المنتج:\n";
-    products.forEach((p,i)=>list += `${i+1}- ${p.name}\n`);
-    let choice=parseInt(prompt(list))-1;
-    if(choice>=0){products.splice(choice,1);localStorage.setItem("products",JSON.stringify(products)); showProducts();}
-}
 </script>
 </body>
-  </html>
+    </html>
