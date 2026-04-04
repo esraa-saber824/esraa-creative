@@ -131,8 +131,8 @@ function openProduct(i){
   document.getElementById("pImg").src = selectedProduct.img;
   document.getElementById("pName").innerText = selectedProduct.name;
   document.getElementById("pDesc").innerText = selectedProduct.description || "لا يوجد وصف متاح";
-  document.getElementById("pPrice").innerText = selectedProduct.price;
-  document.getElementById("pOldPrice").innerText = selectedProduct.oldPrice || '';
+  document.getElementById("pPrice").innerText = selectedProduct.price + " ريال";
+  document.getElementById("pOldPrice").innerText = selectedProduct.oldPrice ? selectedProduct.oldPrice + " ريال" : '';
   document.getElementById("qty").innerText = quantity;
 }
 
@@ -156,7 +156,7 @@ function sendToWhatsApp(){
 الفون: ${phone}
 العنوان: ${address}
 المنتج: ${selectedProduct.name}
-السعر: ${selectedProduct.price}
+السعر: ${selectedProduct.price} ريال
 الكمية: ${quantity}
 📌 برجاء إرسال صورة التحويل على رقم الحساب 503068436001`;
   window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
