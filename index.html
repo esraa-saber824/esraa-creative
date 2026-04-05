@@ -17,7 +17,6 @@ header{background:white;padding:16px;text-align:center;font-size:20px;font-weigh
 .product{background:white;border-radius:12px;padding:10px;box-shadow:0 0 8px rgba(0,0,0,0.05);cursor:pointer;position:relative;}
 .product img{width:100%;border-radius:10px;}
 .product h4{margin:8px 0 5px;font-size:15px;}
-.product p{font-size:13px;color:#555;}
 .price{font-weight:bold;}
 .oldPrice{text-decoration:line-through;color:#888;font-size:13px;}
 .discount{position:absolute;top:10px;right:10px;background:red;color:white;padding:4px 8px;font-size:12px;border-radius:6px;}
@@ -34,6 +33,12 @@ display:flex;align-items:center;justify-content:center;color:white;cursor:pointe
 .productPage img{width:100%;border-radius:12px;}
 .productPage h3{margin:10px 0 5px;}
 .productPage p{margin:5px 0;color:#555;}
+
+/* ✨ وصف احترافي */
+.descBox{background:#f9f9f9;padding:12px;border-radius:10px;margin-top:10px;}
+.descBox ul{padding-right:18px;margin:0;}
+.descBox li{margin-bottom:6px;}
+
 .qtyBox{display:flex;gap:10px;margin-top:10px;}
 .qtyBox button{width:35px;height:35px;background:black;color:white;border:none;border-radius:8px;}
 .orderBtn{margin-top:15px;width:100%;background:#25D366;color:white;padding:12px;border:none;border-radius:10px;}
@@ -44,7 +49,6 @@ input{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid
 
 <header>Esraa creative 💖</header>
 
-<!-- الصفحة الرئيسية -->
 <div id="mainPage">
 
 <div class="categories">
@@ -62,12 +66,16 @@ input{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid
 
 </div>
 
-<!-- صفحة المنتج -->
 <div class="productPage" id="productPage">
   <button onclick="closeProductPage()">⬅ العودة للمتجر</button>
   <img id="pImg">
   <h3 id="pName"></h3>
-  <p id="pDesc"></p>
+
+  <!-- ✨ وصف احترافي -->
+  <div class="descBox">
+    <ul id="pDesc"></ul>
+  </div>
+
   <div>السعر: <span id="pPrice"></span></div>
   <div>السعر قبل الخصم: <span id="pOldPrice"></span></div>
 
@@ -95,7 +103,7 @@ let selectedCategory="all";
 let selectedProduct={};
 let quantity=1;
 
-/* عرض المنتجات */
+/* عرض المنتجات (بدون وصف) */
 function showProducts(){
   let box="";
   products.forEach((p,i)=>{
@@ -106,7 +114,6 @@ function showProducts(){
       ${discount?`<div class="discount">${discount}%</div>`:""}
       <img src="${p.img}">
       <h4>${p.name}</h4>
-      <p>${p.description||''}</p>
       <div class="price">${p.price} ر.س</div>
       ${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ر.س</div>`:""}
     </div>`;
@@ -123,7 +130,7 @@ function filterCategory(cat,el){
   showProducts();
 }
 
-/* فتح صفحة المنتج */
+/* فتح المنتج */
 function openProduct(i){
   selectedProduct = products[i];
   quantity=1;
@@ -131,11 +138,19 @@ function openProduct(i){
   document.getElementById("mainPage").style.display="none";
   document.getElementById("productPage").style.display="block";
 
-  window.scrollTo(0,0);
+  let descList="";
+  if(selectedProduct.description){
+    selectedProduct.description.split("-").forEach(d=>{
+      descList+=`<li>${d}</li>`;
+    });
+  }else{
+    descList="<li>لا يوجد وصف</li>";
+  }
+
+  document.getElementById("pDesc").innerHTML = descList;
 
   document.getElementById("pImg").src = selectedProduct.img;
   document.getElementById("pName").innerText = selectedProduct.name;
-  document.getElementById("pDesc").innerText = selectedProduct.description || "لا يوجد وصف متاح";
   document.getElementById("pPrice").innerText = selectedProduct.price + " ر.س";
   document.getElementById("pOldPrice").innerText = selectedProduct.oldPrice ? selectedProduct.oldPrice + " ر.س" : '';
   document.getElementById("qty").innerText = quantity;
@@ -173,7 +188,7 @@ function addProduct(){
   let pass=prompt("كلمة السر:");
   if(pass!=="esraa2026") return;
   let name=prompt("اسم المنتج:");
-  let description=prompt("وصف المنتج:");
+  let description=prompt("الوصف (اكتبيه بالشكل ده: مريح-خفيف-شيك)");
   let price=prompt("السعر:");
   let oldPrice=prompt("السعر قبل الخصم:");
   let catNum=prompt("1 تريندات\n2 هاند ميد\n3 عبايات\n4 خمارات\n5 الشنط\n6 دريسات\n7 فوانيس");
@@ -217,4 +232,4 @@ function editProduct(){
 </script>
 
 </body>
-</html>
+      </html>
