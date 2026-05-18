@@ -34,10 +34,26 @@ display:flex;align-items:center;justify-content:center;color:white;cursor:pointe
 .productPage h3{margin:10px 0 5px;}
 .productPage p{margin:5px 0;color:#555;}
 
-/* ✨ وصف احترافي */
-.descBox{background:#f9f9f9;padding:12px;border-radius:10px;margin-top:10px;}
-.descBox ul{padding-right:18px;margin:0;}
-.descBox li{margin-bottom:6px;}
+.descBox{
+background:#fff;
+padding:14px;
+border-radius:14px;
+margin-top:12px;
+border:1px solid #eee;
+box-shadow:0 2px 8px rgba(0,0,0,0.05);
+}
+
+.descBox ul{
+padding-right:20px;
+margin:0;
+}
+
+.descBox li{
+margin-bottom:10px;
+line-height:1.8;
+color:#444;
+font-size:15px;
+}
 
 .qtyBox{display:flex;gap:10px;margin-top:10px;}
 .qtyBox button{width:35px;height:35px;background:black;color:white;border:none;border-radius:8px;}
@@ -71,7 +87,6 @@ input{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid
   <img id="pImg">
   <h3 id="pName"></h3>
 
-  <!-- ✨ وصف احترافي -->
   <div class="descBox">
     <ul id="pDesc"></ul>
   </div>
@@ -88,7 +103,10 @@ input{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid
   <input id="customerName" placeholder="اسم العميل">
   <input id="customerPhone" placeholder="رقم الفون">
   <input id="customerAddress" placeholder="العنوان">
-  <div style="font-size:14px;color:#555;margin-top:5px;">📌 بعد الضغط على إرسال، برجاء إرسال صورة التحويل على رقم الحساب المرسل لك</div>
+
+  <div style="font-size:14px;color:#555;margin-top:5px;">
+  📌 بعد الضغط على إرسال، برجاء إرسال صورة التحويل على رقم الحساب المرسل لك
+  </div>
 
   <button class="orderBtn" onclick="sendToWhatsApp()">إرسال الطلب</button>
 </div>
@@ -103,75 +121,133 @@ let selectedCategory="all";
 let selectedProduct={};
 let quantity=1;
 
-/* عرض المنتجات (بدون وصف) */
+/* عرض المنتجات */
 function showProducts(){
   let box="";
+
   products.forEach((p,i)=>{
+
     if(selectedCategory!=="all" && p.category!==selectedCategory) return;
-    let discount=p.oldPrice?Math.round((p.oldPrice-p.price)/p.oldPrice*100):null;
+
+    let discount = (p.oldPrice && p.oldPrice > p.price)
+    ? Math.round((p.oldPrice - p.price) / p.oldPrice * 100)
+    : null;
+
     box+=`
     <div class="product" onclick="openProduct(${i})">
+
       ${discount?`<div class="discount">${discount}%</div>`:""}
+
       <img src="${p.img}">
       <h4>${p.name}</h4>
+
       <div class="price">${p.price} ر.س</div>
+
       ${p.oldPrice?`<div class="oldPrice">${p.oldPrice} ر.س</div>`:""}
+
     </div>`;
   });
+
   document.getElementById("products").innerHTML = box;
 }
+
 showProducts();
 
 /* فلترة */
 function filterCategory(cat,el){
+
   selectedCategory=cat;
-  document.querySelectorAll(".categoryBox").forEach(c=>c.classList.remove("active"));
+
+  document.querySelectorAll(".categoryBox")
+  .forEach(c=>c.classList.remove("active"));
+
   el.classList.add("active");
+
   showProducts();
 }
 
 /* فتح المنتج */
 function openProduct(i){
+
   selectedProduct = products[i];
+
   quantity=1;
 
   document.getElementById("mainPage").style.display="none";
   document.getElementById("productPage").style.display="block";
 
   let descList="";
+
   if(selectedProduct.description){
+
     selectedProduct.description.split("-").forEach(d=>{
       descList+=`<li>${d}</li>`;
     });
+
   }else{
+
     descList="<li>لا يوجد وصف</li>";
   }
 
   document.getElementById("pDesc").innerHTML = descList;
 
   document.getElementById("pImg").src = selectedProduct.img;
+
   document.getElementById("pName").innerText = selectedProduct.name;
-  document.getElementById("pPrice").innerText = selectedProduct.price + " ر.س";
-  document.getElementById("pOldPrice").innerText = selectedProduct.oldPrice ? selectedProduct.oldPrice + " ر.س" : '';
+
+  document.getElementById("pPrice").innerText =
+  selectedProduct.price + " ر.س";
+
+  document.getElementById("pOldPrice").innerText =
+  selectedProduct.oldPrice
+  ? selectedProduct.oldPrice + " ر.س"
+  : '';
+
   document.getElementById("qty").innerText = quantity;
 }
 
 /* رجوع */
 function closeProductPage(){
+
   document.getElementById("productPage").style.display="none";
+
   document.getElementById("mainPage").style.display="block";
 }
 
 /* كمية */
-function plusQty(){quantity++; document.getElementById("qty").innerText = quantity;}
-function minusQty(){if(quantity>1){quantity--; document.getElementById("qty").innerText = quantity;}}
+function plusQty(){
 
-/* واتساب */
+  quantity++;
+
+  document.getElementById("qty").innerText = quantity;
+}
+
+function minusQty(){
+
+  if(quantity>1){
+
+    quantity--;
+
+    document.getElementById("qty").innerText = quantity;
+  }
+}
+
+/* إرسال واتساب */
 function sendToWhatsApp(){
+
   let name=document.getElementById("customerName").value;
+
   let phone=document.getElementById("customerPhone").value;
+
   let address=document.getElementById("customerAddress").value;
-  if(!name||!phone||!address){alert("اكتبي كل البيانات"); return;}
+
+  if(!name||!phone||!address){
+
+    alert("اكتبي كل البيانات");
+
+    return;
+  }
+
   let msg=`طلب جديد 💖
 الاسم: ${name}
 الفون: ${phone}
@@ -179,57 +255,111 @@ function sendToWhatsApp(){
 المنتج: ${selectedProduct.name}
 السعر: ${selectedProduct.price} ر.س
 الكمية: ${quantity}
+
 📌 برجاء إرسال صورة التحويل على رقم الحساب 503068436001`;
-  window.open("https://wa.me/201091007426?text="+encodeURIComponent(msg));
+
+  window.open("https://wa.me/201277313892?text="+encodeURIComponent(msg));
 }
 
-/* إضافة */
+/* إضافة منتج */
 function addProduct(){
+
   let pass=prompt("كلمة السر:");
+
   if(pass!=="esraa2026") return;
+
   let name=prompt("اسم المنتج:");
+
   let description=prompt("الوصف (اكتبيه بالشكل ده: مريح-خفيف-شيك)");
+
   let price=prompt("السعر:");
+
   let oldPrice=prompt("السعر قبل الخصم:");
+
   let catNum=prompt("1 تريندات\n2 هاند ميد\n3 عبايات\n4 خمارات\n5 الشنط\n6 دريسات\n7 فوانيس");
-  let category = ["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
+
+  let category =
+  ["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
+
   let img=prompt("رابط الصورة:");
-  products.push({name,description,price,oldPrice,category,img});
+
+  products.push({
+    name,
+    description,
+    price,
+    oldPrice,
+    category,
+    img
+  });
+
   localStorage.setItem("products",JSON.stringify(products));
+
   showProducts();
 }
 
-/* حذف */
+/* حذف منتج */
 function deleteProduct(){
+
   let pass=prompt("كلمة السر:");
+
   if(pass!=="esraa2026") return;
+
   let list="";
-  products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
+
+  products.forEach((p,i)=>
+  list+=`${i+1}- ${p.name}\n`);
+
   let choice=parseInt(prompt(list))-1;
-  if(choice>=0){products.splice(choice,1);localStorage.setItem("products",JSON.stringify(products)); showProducts();}
+
+  if(choice>=0){
+
+    products.splice(choice,1);
+
+    localStorage.setItem("products",JSON.stringify(products));
+
+    showProducts();
+  }
 }
 
-/* تعديل */
+/* تعديل منتج */
 function editProduct(){
+
   let pass=prompt("كلمة السر:");
+
   if(pass!=="esraa2026") return;
+
   let list="";
-  products.forEach((p,i)=>list+=`${i+1}- ${p.name}\n`);
+
+  products.forEach((p,i)=>
+  list+=`${i+1}- ${p.name}\n`);
+
   let i=parseInt(prompt(list))-1;
+
   if(i>=0){
+
     let p=products[i];
+
     p.name=prompt("الاسم",p.name);
+
     p.description=prompt("الوصف",p.description);
+
     p.price=prompt("السعر",p.price);
+
     p.oldPrice=prompt("قبل الخصم",p.oldPrice);
+
     let catNum=prompt("1 تريندات\n2 هاند ميد\n3 عبايات\n4 خمارات\n5 الشنط\n6 دريسات\n7 فوانيس");
-    p.category=["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
+
+    p.category=
+    ["تريندات","هاند ميد","عبايات","خمارات","الشنط","دريسات","فوانيس"][catNum-1];
+
     p.img=prompt("الصورة",p.img);
+
     localStorage.setItem("products",JSON.stringify(products));
+
     showProducts();
   }
 }
 </script>
 
 </body>
-      </html>
+  </html>
